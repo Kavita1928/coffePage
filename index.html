@@ -1,0 +1,2498 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Brew & Bliss - Premium Artisanal Coffee Shop</title>
+    <meta name="description" content="Experience the perfect blend of artisanal coffee and cozy atmosphere at Brew & Bliss. Premium coffee, freshly baked pastries, and exceptional service in a beautiful 3D interactive coffee shop experience.">
+    <meta name="author" content="Brew & Bliss">
+
+    <meta property="og:title" content="Brew & Bliss - Premium Artisanal Coffee Shop">
+    <meta property="og:description" content="Experience the perfect blend of artisanal coffee and cozy atmosphere at Brew & Bliss. Premium coffee, freshly baked pastries, and exceptional service.">
+    <meta property="og:type" content="website">
+    <meta property="og:image" content="https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1200&q=80">
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:image" content="https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1200&q=80">
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    
+    <style>
+        /* Coffee Shop 3D Design System */
+        :root {
+            /* Main Palette */
+            --background: hsl(30, 25%, 98%); /* Lighter, more welcoming background */
+            --foreground: hsl(25, 20%, 15%); /* Deeper, more readable text */
+            --card: hsl(35, 30%, 94%);        /* Slightly richer card background */
+            --card-foreground: hsl(25, 20%, 15%);
+            
+            /* Coffee Tones */
+            --coffee-dark: hsl(25, 50%, 16%);  /* Deeper espresso tone */
+            --coffee-medium: hsl(30, 45%, 28%); /* Richer medium brown */
+            --coffee-light: hsl(35, 30%, 45%);  /* Muted, warm brown */
+            --cream: hsl(40, 40%, 95%);        /* Brighter, creamy white */
+            --foam: hsl(40, 20%, 98%);         /* Soft, off-white */
+            --espresso: hsl(20, 60%, 12%);      /* Very dark, deep coffee color */
+            
+            /* New Accent Colors */
+            --caramel: hsl(35, 65%, 60%);      /* Vibrant caramel for accents */
+            --mint: hsl(150, 40%, 65%);        /* A fresh, subtle contrast for hovers or highlights */
+            
+            /* Shadows */
+            --shadow-coffee: 0 15px 30px -10px hsla(25, 50%, 16%, 0.4);
+            --shadow-float: 0 8px 25px -4px hsla(30, 40%, 28%, 0.3);
+            --shadow-card: 0 10px 20px -8px hsla(25, 50%, 16%, 0.2);
+            --shadow-glow: 0 0 25px hsla(35, 65%, 60%, 0.3);
+            
+            /* Transitions */
+            --transition-smooth: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            --transition-bounce: all 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+            background: var(--background);
+            color: var(--foreground);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        /* NEW: Header & Navigation */
+        .header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 1000;
+            background: hsla(30, 25%, 98%, 0.8);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--card);
+            transition: all 0.3s ease-in-out;
+            height: 5rem; /* Taller nav bar by default */
+        }
+
+        .header.scrolled {
+            height: 3.5rem; /* Collapsed height on scroll */
+            background: var(--card);
+            box-shadow: var(--shadow-card);
+        }
+
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 2rem;
+            transition: padding 0.3s ease-in-out;
+            height: 100%; /* Ensures alignment within the changing header height */
+        }
+
+        .header.scrolled .nav-container {
+            padding: 0.5rem 2rem;
+        }
+
+        .logo {
+            font-family: 'Inter', sans-serif;
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: var(--coffee-dark);
+            text-decoration: none;
+            background: linear-gradient(135deg, var(--coffee-dark), var(--caramel));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            transition: font-size 0.3s ease-in-out;
+        }
+        
+        .header.scrolled .logo {
+            font-size: 1.25rem;
+        }
+
+        .nav-links {
+            list-style: none;
+            display: flex;
+            gap: 2rem;
+        }
+
+        .nav-link {
+            color: var(--coffee-medium);
+            text-decoration: none;
+            font-weight: 600;
+            transition: color 0.3s ease;
+            position: relative;
+        }
+
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: -5px;
+            width: 0;
+            height: 2px;
+            background: var(--caramel);
+            transition: width 0.3s ease;
+        }
+
+        .nav-link:hover::after {
+            width: 100%;
+        }
+
+        .nav-link:hover {
+            color: var(--coffee-dark);
+        }
+
+        .nav-toggle {
+            display: none;
+            flex-direction: column;
+            gap: 5px;
+            cursor: pointer;
+            background: none;
+            border: none;
+            padding: 0.5rem;
+        }
+
+        .nav-toggle span {
+            width: 25px;
+            height: 3px;
+            background: var(--coffee-dark);
+            border-radius: 5px;
+            transition: all 0.3s ease;
+        }
+
+        .nav-icons {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+        }
+
+        .nav-icons .cart-icon {
+            font-size: 1.5rem;
+            color: var(--coffee-medium);
+            cursor: pointer;
+            position: relative;
+            transition: color 0.3s ease;
+        }
+
+        .nav-icons .cart-icon:hover {
+            color: var(--coffee-dark);
+        }
+
+        .nav-icons .cart-count {
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            background-color: var(--caramel);
+            color: var(--cream);
+            border-radius: 50%;
+            padding: 2px 6px;
+            font-size: 0.75rem;
+            font-weight: bold;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .nav-icons .sign-in-btn {
+            background: transparent;
+            color: var(--coffee-medium);
+            border: 2px solid var(--coffee-light);
+            padding: 0.5rem 1rem;
+            font-size: 0.875rem;
+            font-weight: 600;
+            border-radius: 0.5rem;
+            cursor: pointer;
+            transition: var(--transition-smooth);
+        }
+        
+        .nav-icons .sign-in-btn:hover {
+            background: var(--coffee-light);
+            color: var(--cream);
+        }
+
+        /* Modal for 'Add to Order' and 'Sign In' */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 2000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: hsla(25, 20%, 15%, 0.7);
+            backdrop-filter: blur(5px);
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        
+        .modal.active {
+            display: flex;
+            opacity: 1;
+        }
+
+        /* General Modal Content */
+        .modal-content {
+            background: linear-gradient(145deg, var(--cream), var(--card));
+            padding: 2.5rem;
+            border-radius: 1rem;
+            box-shadow: var(--shadow-card);
+            text-align: center;
+            max-width: 400px;
+            transform: translateY(-20px) scale(0.95);
+            transition: transform 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+        }
+        
+        .modal.active .modal-content {
+            transform: translateY(0) scale(1);
+        }
+        
+        .modal-header {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--coffee-dark);
+            margin-bottom: 1rem;
+        }
+        
+        .modal-text {
+            color: var(--coffee-medium);
+            margin-bottom: 2rem;
+        }
+        
+        .modal-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+        }
+        
+        /* Cart Modal */
+        .cart-modal-content {
+            background: var(--card);
+            max-width: 600px;
+            text-align: left;
+            padding: 2rem;
+        }
+
+        .cart-modal-content h3 {
+            text-align: center;
+        }
+
+        .cart-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.75rem 0;
+            border-bottom: 1px solid var(--coffee-light);
+        }
+
+        .cart-item:last-child {
+            border-bottom: none;
+        }
+
+        .cart-item-name {
+            font-weight: 600;
+            color: var(--coffee-dark);
+        }
+
+        .cart-item-price {
+            font-weight: 500;
+            color: var(--caramel);
+        }
+
+        .cart-total {
+            text-align: right;
+            font-size: 1.25rem;
+            font-weight: 700;
+            margin-top: 1rem;
+        }
+
+        /* Item Detail Modal (new) */
+        .item-detail-modal {
+            max-width: 800px;
+            padding: 0;
+            display: flex;
+            background: linear-gradient(145deg, var(--cream), var(--card));
+            flex-direction: column;
+        }
+
+        .item-detail-modal .modal-close-btn {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--coffee-dark);
+        }
+
+        .item-detail-content {
+            display: flex;
+            flex-direction: row;
+            flex-wrap: wrap;
+            gap: 2rem;
+            padding: 2rem;
+            align-items: center;
+        }
+        .item-detail-image-container {
+            flex: 1 1 300px;
+            max-width: 350px;
+        }
+        .item-detail-image {
+            width: 100%;
+            height: auto;
+            border-radius: 1rem;
+            box-shadow: var(--shadow-card);
+        }
+        .item-detail-text-content {
+            flex: 1 1 350px;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+        .item-detail-text-content h2 {
+            font-size: 2rem;
+            font-weight: 800;
+            margin-bottom: 0.5rem;
+            color: var(--coffee-dark);
+        }
+        .item-detail-text-content p {
+            color: var(--coffee-medium);
+        }
+        .item-detail-text-content .price {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--caramel);
+            margin-top: 0.5rem;
+        }
+        .item-detail-options {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+            margin-top: 1rem;
+        }
+        .item-detail-buttons {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+        .item-detail-buttons .btn-primary {
+            flex: 1;
+        }
+        @media (max-width: 600px) {
+            .item-detail-content {
+                flex-direction: column;
+            }
+        }
+
+
+        /* Hero Section */
+        .hero-section {
+            position: relative;
+            min-height: 100vh;
+            overflow: hidden;
+            perspective: 1000px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .hero-background {
+            position: absolute;
+            inset: 0;
+            background-image: url('https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1200&q=80');
+            background-size: cover;
+            background-position: center;
+            transform: translateZ(-100px) scale(1.1);
+            will-change: transform;
+        }
+
+        .hero-overlay {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, 
+                hsl(25, 50%, 20%, 0.8) 0%, 
+                hsl(30, 40%, 35%, 0.6) 50%, 
+                transparent 100%);
+        }
+
+        .floating-cup {
+            position: absolute;
+            top: 25%;
+            right: 25%;
+            width: 8rem;
+            height: 8rem;
+            animation: float 6s ease-in-out infinite;
+            will-change: transform;
+        }
+
+        .floating-cup img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            opacity: 0.2;
+        }
+
+        .steam-container {
+            position: absolute;
+            top: 33%;
+            left: 33%;
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .steam-line {
+            width: 0.5rem;
+            height: 2rem;
+            background: var(--foam);
+            opacity: 0.3;
+            border-radius: 1rem;
+            animation: steam 3s ease-in-out infinite;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 10;
+            text-align: center;
+            max-width: 56rem;
+            padding: 0 1.5rem;
+            transform-style: preserve-3d;
+        }
+
+        .hero-title {
+            font-size: clamp(3rem, 8vw, 6rem);
+            font-weight: 800;
+            margin-bottom: 1.5rem;
+            background: linear-gradient(135deg, var(--coffee-dark), var(--caramel));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            background-size: 200% 200%;
+            animation: gradientShift 4s ease infinite;
+        }
+
+        .hero-description {
+            font-size: clamp(1.125rem, 2vw, 1.5rem);
+            color: var(--cream);
+            margin-bottom: 3rem;
+            max-width: 48rem;
+            margin-left: auto;
+            margin-right: auto;
+            line-height: 1.7;
+        }
+
+        .hero-buttons {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+            align-items: center;
+        }
+
+        @media (min-width: 640px) {
+            .hero-buttons {
+                flex-direction: row;
+                justify-content: center;
+            }
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--caramel), var(--coffee-medium));
+            color: var(--foreground);
+            border: none;
+            padding: 1rem 2rem;
+            font-size: 1.125rem;
+            font-weight: 600;
+            border-radius: 0.75rem;
+            cursor: pointer;
+            box-shadow: var(--shadow-coffee);
+            transform: translateZ(0);
+            transition: var(--transition-smooth);
+        }
+
+        .btn-primary:hover {
+            background: linear-gradient(135deg, var(--coffee-medium), var(--coffee-dark));
+            color: var(--cream);
+            transform: scale(1.05) translateZ(10px);
+            box-shadow: var(--shadow-glow);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: var(--foreground);
+            border: 2px solid var(--coffee-light);
+            padding: 1rem 2rem;
+            font-size: 1.125rem;
+            font-weight: 600;
+            border-radius: 0.75rem;
+            cursor: pointer;
+            backdrop-filter: blur(5px);
+            transform: translateZ(0);
+            transition: var(--transition-smooth);
+        }
+
+        .btn-secondary:hover {
+            background: var(--coffee-light);
+            color: var(--cream);
+            transform: scale(1.05) translateZ(10px);
+            border-color: var(--coffee-light);
+        }
+
+        .coffee-beans {
+            position: absolute;
+            bottom: 2.5rem;
+            left: 2.5rem;
+        }
+
+        .bean {
+            position: absolute;
+            width: 1rem;
+            height: 1.5rem;
+            background: var(--coffee-medium);
+            border-radius: 50%;
+            opacity: 0.4;
+            animation: beanSpin 8s linear infinite;
+        }
+
+        .bean-2 {
+            animation-delay: 2s;
+            top: 1.25rem;
+            left: 1.25rem;
+        }
+
+        .bean-3 {
+            animation-delay: 4s;
+            top: 2.5rem;
+            left: 2.5rem;
+        }
+
+        /* BrewMaster About Section */
+        .brewmaster-section {
+            position: relative;
+            padding: 5rem 0;
+            background: linear-gradient(135deg, var(--cream), var(--background));
+            overflow: hidden;
+        }
+
+        .brewmaster-background {
+            position: absolute;
+            inset: 0;
+            opacity: 0.03;
+        }
+
+        .brewmaster-pattern {
+            position: absolute;
+            border-radius: 50%;
+            animation: float 8s ease-in-out infinite;
+        }
+
+        .brewmaster-pattern.pattern-1 {
+            top: 10%;
+            left: 10%;
+            width: 10rem;
+            height: 10rem;
+            background: var(--coffee-medium);
+        }
+
+        .brewmaster-pattern.pattern-2 {
+            bottom: 15%;
+            right: 15%;
+            width: 8rem;
+            height: 8rem;
+            background: var(--caramel);
+            animation-delay: 2s;
+        }
+
+        .brewmaster-pattern.pattern-3 {
+            top: 30%;
+            right: 20%;
+            width: 6rem;
+            height: 6rem;
+            background: var(--coffee-light);
+            animation-delay: 4s;
+        }
+
+        .brewmaster-header {
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+
+        .brewmaster-title {
+            font-size: clamp(2.5rem, 5vw, 3.5rem);
+            font-weight: 800;
+            margin-bottom: 1.5rem;
+            background: linear-gradient(135deg, var(--coffee-dark), var(--caramel));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .brewmaster-description {
+            font-size: 1.25rem;
+            color: var(--coffee-medium);
+            max-width: 48rem;
+            margin: 0 auto;
+            line-height: 1.7;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .feature-card {
+            background: linear-gradient(145deg, var(--cream), var(--card));
+            border: 1px solid hsla(35, 35%, 55%, 0.2);
+            border-radius: 1rem;
+            padding: 2rem;
+            text-align: center;
+            transform-style: preserve-3d;
+            transition: var(--transition-smooth);
+            backdrop-filter: blur(20px);
+        }
+
+        .feature-card:hover {
+            transform: rotateY(5deg) rotateX(5deg) translateZ(10px);
+            box-shadow: var(--shadow-card);
+            border-color: hsla(35, 60%, 65%, 0.5);
+        }
+
+        .feature-icon {
+            font-size: 3rem;
+            margin-bottom: 1.5rem;
+            display: block;
+        }
+
+        .feature-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: var(--coffee-dark);
+            margin-bottom: 1rem;
+        }
+
+        .feature-description {
+            color: var(--coffee-medium);
+            line-height: 1.6;
+        }
+        
+        /* NEW: Beverage of the Month Section */
+        .beverage-of-the-month-section {
+            padding: 5rem 0;
+            background: linear-gradient(135deg, var(--background), var(--card));
+            position: relative;
+        }
+        
+        .beverage-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 3rem;
+        }
+
+        .beverage-content {
+            text-align: center;
+        }
+        
+        .beverage-image-card {
+            max-width: 800px;
+            border-radius: 1rem;
+            box-shadow: var(--shadow-coffee);
+            transition: transform 0.3s ease;
+            overflow: hidden;
+        }
+
+        .beverage-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+        
+        .beverage-image:hover {
+            transform: scale(1.05) rotate(2deg);
+        }
+
+        .beverage-title {
+            font-size: clamp(2rem, 4vw, 3rem);
+            font-weight: 800;
+            background: linear-gradient(135deg, var(--caramel), var(--coffee-dark));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 1rem;
+        }
+        
+        .beverage-description {
+            max-width: 600px;
+            color: var(--coffee-medium);
+        }
+        
+        /* Menu Section */
+        .menu-section {
+            position: relative;
+            padding: 5rem 0;
+            background: linear-gradient(135deg, var(--background), var(--cream), var(--card));
+            overflow: hidden;
+        }
+
+        .section-background {
+            position: absolute;
+            inset: 0;
+            opacity: 0.05;
+        }
+
+        .bg-pattern {
+            position: absolute;
+            border-radius: 50%;
+        }
+
+        .pattern-1 {
+            top: 5rem;
+            left: 5rem;
+            width: 8rem;
+            height: 8rem;
+            background: var(--coffee-medium);
+        }
+
+        .pattern-2 {
+            bottom: 10rem;
+            right: 8rem;
+            width: 6rem;
+            height: 6rem;
+            background: var(--caramel);
+        }
+
+        .pattern-3 {
+            top: 50%;
+            left: 25%;
+            width: 4rem;
+            height: 4rem;
+            background: var(--coffee-light);
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+
+        .section-title {
+            font-size: clamp(2.5rem, 5vw, 3.5rem);
+            font-weight: 800;
+            margin-bottom: 1.5rem;
+            background: linear-gradient(135deg, var(--coffee-dark), var(--caramel));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .section-description {
+            font-size: 1.25rem;
+            color: var(--coffee-medium);
+            max-width: 48rem;
+            margin: 0 auto;
+        }
+
+        .category-filter {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 1rem;
+            margin-bottom: 3rem;
+        }
+
+        .filter-btn {
+            padding: 0.75rem 1.5rem;
+            border: 2px solid var(--coffee-light);
+            background: transparent;
+            color: var(--coffee-medium);
+            border-radius: 0.75rem;
+            cursor: pointer;
+            font-weight: 500;
+            transition: var(--transition-smooth);
+            transform: translateZ(0);
+        }
+
+        .filter-btn:hover,
+        .filter-btn.active {
+            background: var(--coffee-medium);
+            color: var(--cream);
+            box-shadow: var(--shadow-coffee);
+            transform: scale(1.05) translateZ(5px);
+        }
+
+        .menu-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            perspective: 1000px;
+        }
+
+        .menu-item {
+            background: linear-gradient(145deg, var(--cream), var(--card));
+            border: 1px solid hsla(35, 35%, 55%, 0.2);
+            border-radius: 1rem;
+            padding: 2rem;
+            transform-style: preserve-3d;
+            transition: var(--transition-smooth);
+            backdrop-filter: blur(20px);
+            opacity: 1;
+            transform: translateY(0);
+        }
+        /* Updated hover effect */
+        .menu-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px -10px hsla(25, 50%, 16%, 0.2);
+            border-color: hsla(35, 60%, 65%, 0.5);
+            background: linear-gradient(145deg, var(--foam), var(--cream));
+        }
+
+        .menu-item.hidden {
+            opacity: 0;
+            transform: translateY(20px);
+            pointer-events: none;
+        }
+
+        /* New CSS for Menu Item Images */
+        .menu-item-image-container {
+            width: 100%;
+            aspect-ratio: 16/9; /* Maintain a consistent aspect ratio */
+            overflow: hidden;
+            border-radius: 0.75rem;
+            margin-bottom: 1rem;
+        }
+        
+        .menu-item-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.3s ease;
+        }
+        
+        .menu-item:hover .menu-item-image {
+            transform: scale(1.1); /* Zoom effect on hover */
+        }
+
+        .menu-item-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 1rem;
+        }
+
+        .menu-item-name {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: var(--coffee-dark);
+        }
+
+        .menu-item-price {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--caramel);
+        }
+
+        .menu-item-category {
+            font-size: 0.875rem;
+            color: var(--caramel);
+            font-weight: 500;
+            margin-bottom: 0.5rem;
+            text-transform: uppercase;
+        }
+
+        .menu-item-description {
+            color: var(--coffee-medium);
+            line-height: 1.6;
+            margin-bottom: 1.5rem;
+        }
+
+        .menu-item .btn-primary {
+            width: 100%;
+            background: var(--coffee-medium);
+            margin-top: 1rem;
+        }
+
+        .menu-item .btn-primary:hover {
+            background: var(--coffee-dark);
+        }
+        
+        /* NEW: Testimonials Section */
+        .testimonials-section {
+            padding: 5rem 0;
+            background: var(--card);
+        }
+        
+        .testimonial-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .testimonial-card {
+            background: var(--background);
+            padding: 3rem;
+            border-radius: 1rem;
+            box-shadow: var(--shadow-card);
+            text-align: center;
+            border-left: 5px solid var(--caramel);
+            transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+        }
+
+        .testimonial-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px -10px hsla(25, 50%, 16%, 0.2);
+        }
+        
+        .testimonial-text {
+            font-size: 1.125rem;
+            font-style: italic;
+            color: var(--coffee-dark);
+            margin-bottom: 1.5rem;
+            line-height: 1.7;
+        }
+        
+        .testimonial-author {
+            font-weight: 700;
+            color: var(--caramel);
+        }
+
+        /* About Section */
+        .about-section {
+            position: relative;
+            padding: 5rem 0;
+            background: linear-gradient(135deg, var(--coffee-dark), var(--coffee-medium), var(--coffee-light));
+            color: var(--cream);
+            overflow: hidden;
+        }
+
+        .about-background {
+            position: absolute;
+            inset: 0;
+        }
+
+        .about-pattern {
+            position: absolute;
+            border-radius: 50%;
+            opacity: 0.1;
+        }
+
+        .about-pattern.pattern-1 {
+            top: 25%;
+            left: 2.5rem;
+            width: 16rem;
+            height: 16rem;
+            background: var(--caramel);
+            animation: float 6s ease-in-out infinite;
+        }
+
+        .about-pattern.pattern-2 {
+            bottom: 25%;
+            right: 2.5rem;
+            width: 12rem;
+            height: 12rem;
+            background: var(--cream);
+            animation: float 6s ease-in-out infinite;
+            animation-delay: 2s;
+        }
+
+        .about-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 4rem;
+            align-items: center;
+        }
+
+        @media (min-width: 1024px) {
+            .about-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        .about-content {
+            transform: translateX(-50px);
+            opacity: 0;
+            transition: all 1s ease-out;
+        }
+
+        .about-content.visible {
+            transform: translateX(0);
+            opacity: 1;
+        }
+
+        .gradient-text {
+            background: linear-gradient(135deg, var(--cream), var(--caramel));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .about-text {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+
+        .about-text p {
+            font-size: 1.125rem;
+            line-height: 1.7;
+            color: hsla(40, 30%, 90%, 0.9);
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+            padding-top: 2rem;
+        }
+
+        .stat-item {
+            text-align: center;
+            transform-style: preserve-3d;
+            transition: var(--transition-smooth);
+        }
+
+        .stat-item:hover {
+            transform: perspective(1000px) rotateX(10deg) rotateY(10deg) scale(1.05);
+        }
+
+        .stat-number {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--caramel);
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-label {
+            font-size: 0.875rem;
+            color: hsla(40, 30%, 90%, 0.8);
+        }
+
+        .about-image {
+            position: relative;
+            transform: translateX(50px);
+            opacity: 0;
+            transition: all 1s ease-out 0.3s;
+        }
+
+        .about-image.visible {
+            transform: translateX(0);
+            opacity: 1;
+        }
+
+        .image-container {
+            position: relative;
+            perspective: 1000px;
+        }
+
+        .image-container img {
+            width: 100%;
+            height: 24rem;
+            object-fit: cover;
+            border-radius: 1rem;
+            box-shadow: var(--shadow-card);
+            transform-style: preserve-3d;
+            transition: var(--transition-smooth);
+        }
+
+        .image-container:hover img {
+            transform: perspective(1000px) rotateX(10deg) rotateY(10deg) scale(1.05);
+            box-shadow: var(--shadow-glow);
+        }
+
+        .floating-element {
+            position: absolute;
+            border-radius: 50%;
+            animation: float 6s ease-in-out infinite;
+            opacity: 0.8;
+        }
+
+        .element-1 {
+            top: -1.5rem;
+            right: -1.5rem;
+            width: 3rem;
+            height: 3rem;
+            background: var(--caramel);
+        }
+
+        .element-2 {
+            bottom: -1.5rem;
+            left: -1.5rem;
+            width: 2rem;
+            height: 2rem;
+            background: var(--cream);
+            opacity: 0.6;
+            animation-delay: 1s;
+        }
+
+        .element-3 {
+            top: 50%;
+            right: -1rem;
+            width: 1.5rem;
+            height: 1.5rem;
+            background: var(--coffee-light);
+            opacity: 0.7;
+            animation-delay: 0.5s;
+        }
+
+        /* Contact Section */
+        .contact-section {
+            position: relative;
+            padding: 5rem 0;
+            background: linear-gradient(135deg, var(--background), var(--cream));
+            overflow: hidden;
+        }
+
+        .contact-background {
+            position: absolute;
+            inset: 0;
+            opacity: 0.05;
+        }
+
+        .contact-pattern {
+            position: absolute;
+            border-radius: 50%;
+            animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+        }
+
+        .contact-pattern.pattern-1 {
+            top: 5rem;
+            right: 5rem;
+            width: 10rem;
+            height: 10rem;
+            background: var(--coffee-medium);
+        }
+
+        .contact-pattern.pattern-2 {
+            bottom: 10rem;
+            left: 8rem;
+            width: 8rem;
+            height: 8rem;
+            background: var(--caramel);
+            animation-delay: 1s;
+        }
+
+        .contact-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 3rem;
+            align-items: center;
+        }
+
+        @media (min-width: 1024px) {
+            .contact-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .info-card {
+            background: linear-gradient(145deg, var(--cream), var(--card));
+            border: 1px solid hsla(35, 35%, 55%, 0.2);
+            border-radius: 1rem;
+            padding: 1.5rem;
+            text-align: center;
+            transform-style: preserve-3d;
+            transition: var(--transition-smooth);
+            backdrop-filter: blur(20px);
+        }
+
+        .info-card:hover {
+            transform: rotateY(10deg) rotateX(5deg) translateZ(20px);
+            box-shadow: var(--shadow-card);
+            border-color: hsla(35, 60%, 65%, 0.5);
+        }
+
+        .info-icon {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+        }
+
+        .info-title {
+            font-size: 1.125rem;
+            font-weight: 600;
+            color: var(--coffee-dark);
+            margin-bottom: 0.5rem;
+        }
+
+        .info-text {
+            color: var(--coffee-medium);
+            font-size: 0.875rem;
+            line-height: 1.5;
+        }
+
+        .contact-cta {
+            text-align: center;
+        }
+
+        .btn-primary.large {
+            padding: 1.25rem 2.5rem;
+            font-size: 1.125rem;
+        }
+
+        .map-container {
+            position: relative;
+        }
+
+        .map-placeholder {
+            aspect-ratio: 16/9;
+            background: linear-gradient(135deg, var(--coffee-light), var(--coffee-medium));
+            border-radius: 1rem;
+            box-shadow: var(--shadow-card);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+            transform-style: preserve-3d;
+            transition: var(--transition-smooth);
+        }
+
+        .map-placeholder:hover {
+            transform: perspective(1000px) rotateX(10deg) rotateY(10deg) scale(1.05);
+            box-shadow: var(--shadow-glow);
+        }
+
+        .map-content {
+            text-align: center;
+            color: var(--cream);
+        }
+
+        .map-icon {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+            opacity: 0.8;
+        }
+
+        .map-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .map-text {
+            color: hsla(40, 30%, 90%, 0.8);
+        }
+
+        .map-decoration {
+            position: absolute;
+            border-radius: 50%;
+            animation: float 6s ease-in-out infinite;
+            background: var(--caramel);
+        }
+
+        .decoration-1 {
+            top: 1rem;
+            left: 1rem;
+            width: 1.5rem;
+            height: 1.5rem;
+            opacity: 0.6;
+        }
+
+        .decoration-2 {
+            bottom: 1rem;
+            right: 1rem;
+            width: 1rem;
+            height: 1rem;
+            background: var(--cream);
+            opacity: 0.5;
+            animation-delay: 1s;
+        }
+
+        .decoration-3 {
+            top: 50%;
+            right: 1.5rem;
+            width: 2rem;
+            height: 2rem;
+            background: var(--coffee-dark);
+            opacity: 0.4;
+            animation-delay: 0.5s;
+        }
+
+        /* Animations */
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            25% { transform: translateY(-10px) rotate(2deg); }
+            50% { transform: translateY(-20px) rotate(0deg); }
+            75% { transform: translateY(-10px) rotate(-2deg); }
+        }
+
+        @keyframes steam {
+            0% { transform: translateY(0) scale(1) rotate(0deg); opacity: 0.7; }
+            50% { transform: translateY(-30px) scale(1.2) rotate(5deg); opacity: 0.3; }
+            100% { transform: translateY(-60px) scale(1.5) rotate(10deg); opacity: 0; }
+        }
+
+        @keyframes beanSpin {
+            0% { transform: rotate(0deg) translateX(50px) rotate(0deg); }
+            100% { transform: rotate(360deg) translateX(50px) rotate(-360deg); }
+        }
+
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); opacity: 0.5; }
+            50% { transform: scale(1.05); opacity: 0.3; }
+        }
+
+        /* NEW: Footer CSS */
+        .footer {
+            background: var(--coffee-dark);
+            color: var(--foam);
+            padding: 5rem 0;
+            font-size: 0.9rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .footer::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: url('https://images.unsplash.com/photo-1541167713426-302a24c13a6e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1200&q=80') center center;
+            background-size: cover;
+            opacity: 0.05;
+            z-index: 1;
+        }
+
+        .footer-grid {
+            position: relative;
+            z-index: 2;
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 3rem;
+        }
+
+        @media (min-width: 768px) {
+            .footer-grid {
+                grid-template-columns: 2fr 1fr 2fr;
+            }
+        }
+
+        .footer-title {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--caramel);
+            margin-bottom: 1.5rem;
+        }
+
+        .footer p {
+            color: hsla(40, 30%, 90%, 0.8);
+            max-width: 25rem;
+            line-height: 1.7;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+
+        .social-link {
+            color: var(--cream);
+            transition: color 0.3s ease;
+        }
+
+        .social-link:hover {
+            color: var(--caramel);
+            transform: scale(1.1);
+        }
+
+        .footer-links {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+        }
+
+        .footer-links a {
+            color: var(--foam);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .footer-links a:hover {
+            color: var(--caramel);
+        }
+
+        .newsletter-form {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .newsletter-form input {
+            padding: 0.75rem 1rem;
+            border-radius: 0.5rem;
+            border: 1px solid var(--coffee-light);
+            background: var(--coffee-medium);
+            color: var(--foam);
+        }
+
+        .newsletter-form input::placeholder {
+            color: hsla(40, 30%, 90%, 0.5);
+        }
+
+        .newsletter-form .btn-primary {
+            width: auto;
+            align-self: flex-start;
+            padding: 0.75rem 1.5rem;
+            font-size: 1rem;
+        }
+
+        /* Update your existing CSS */
+.footer-bottom {
+    border-top: 1px solid hsla(40, 30%, 90%, 0.2);
+    text-align: center;
+    padding-top: 2rem;
+    padding-left: 35%;
+    margin-top: 3rem;
+    color: hsla(40, 30%, 90%, 0.6);
+    /* Add this for better horizontal alignment */
+    width: 100%;
+}
+        
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .container { padding: 0 1rem; }
+            .hero-content { padding: 0 1rem; }
+            .floating-cup { width: 4rem; height: 4rem; }
+            .section-title { font-size: 2.5rem; }
+            .menu-grid { grid-template-columns: 1fr; }
+            .stats-grid { grid-template-columns: 1fr; gap: 1rem; }
+            .info-grid { grid-template-columns: 1fr; }
+            .features-grid { grid-template-columns: 1fr; }
+            
+            /* Mobile Nav */
+            .nav-icons { display: flex; align-items: center; gap: 1rem; }
+            .nav-toggle { display: flex; }
+            .nav-menu {
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background: hsla(30, 25%, 98%, 0.95);
+                backdrop-filter: blur(20px);
+                display: none;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                transform: translateX(-100%);
+                transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            }
+            .nav-menu.active {
+                transform: translateX(0);
+                display: flex;
+            }
+            .nav-links {
+                flex-direction: column;
+                gap: 3rem;
+                text-align: center;
+            }
+            .nav-link {
+                font-size: 2rem;
+                font-weight: 700;
+            }
+            .nav-toggle.active span:first-child { transform: rotate(45deg) translate(5px, 5px); }
+            .nav-toggle.active span:nth-child(2) { opacity: 0; }
+            .nav-toggle.active span:last-child { transform: rotate(-45deg) translate(5px, -5px); }
+            
+            .beverage-container { flex-direction: column; }
+            .footer-grid { grid-template-columns: 1fr; }
+        }
+        
+    </style>
+</head>
+<body>
+    <header class="header" id="mainHeader">
+        <div class="container nav-container">
+            <a href="#" class="logo">Brew & Bliss</a>
+            <nav class="nav-menu" id="navMenu">
+                <ul class="nav-links">
+                    <li><a href="#hero" class="nav-link">Home</a></li>
+                    <li><a href="#brewmaster" class="nav-link">About</a></li>
+                    <li><a href="#beverage-of-the-month" class="nav-link">Special</a></li>
+                    <li><a href="#menu" class="nav-link">Menu</a></li>
+                    <li><a href="#testimonials" class="nav-link">Reviews</a></li>
+                    <li><a href="#contact" class="nav-link">Contact</a></li>
+                </ul>
+            </nav>
+            <div class="nav-icons">
+                <button class="sign-in-btn" id="signInBtn">Sign In</button>
+                <div class="cart-icon" id="cartIcon">
+                    <i class="fas fa-shopping-cart"></i>
+                    <span class="cart-count" id="cartCount">0</span>
+                </div>
+                <button class="nav-toggle" id="navToggle">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <section id="hero" class="hero-section">
+        <div class="hero-background" id="heroBackground"></div>
+        <div class="hero-overlay"></div>
+        
+        <div class="floating-cup" id="floatingCup">
+            <div style="width: 100%; height: 100%; background: var(--coffee-medium); border-radius: 50%; opacity: 0.2;"></div>
+        </div>
+        
+        <div class="steam-container">
+            <div class="steam-line" style="animation-delay: 0s;"></div>
+            <div class="steam-line" style="animation-delay: 0.5s;"></div>
+            <div class="steam-line" style="animation-delay: 1s;"></div>
+            <div class="steam-line" style="animation-delay: 1.5s;"></div>
+            <div class="steam-line" style="animation-delay: 2s;"></div>
+        </div>
+        
+        <div class="hero-content" id="heroContent">
+            <div class="hero-text">
+                <h1 class="hero-title" id="heroTitle">Brew & Bliss</h1>
+                <p class="hero-description" id="heroDescription">
+                    Where every cup tells a story. Experience the perfect blend of artisanal coffee 
+                    and cozy atmosphere in our 3D coffee haven.
+                </p>
+                <div class="hero-buttons" id="heroButtons">
+                    <button class="btn-primary" data-scroll-to="menu">Explore Our Menu</button>
+                    <button class="btn-secondary" data-scroll-to="contact">Visit Our Shop</button>
+                </div>
+            </div>
+        </div>
+        
+        <div class="coffee-beans">
+            <div class="bean bean-1"></div>
+            <div class="bean bean-2"></div>
+            <div class="bean bean-3"></div>
+        </div>
+    </section>
+
+    <section id="brewmaster" class="brewmaster-section">
+        <div class="brewmaster-background">
+            <div class="brewmaster-pattern pattern-1"></div>
+            <div class="brewmaster-pattern pattern-2"></div>
+            <div class="brewmaster-pattern pattern-3"></div>
+        </div>
+        
+        <div class="container">
+            <div class="brewmaster-header">
+                <h2 class="brewmaster-title">About BrewMaster</h2>
+                <p class="brewmaster-description">
+                    BrewMaster is more than just a coffee shop—it's a destination for coffee excellence. 
+                    We help coffee enthusiasts discover exceptional flavors and create memorable experiences 
+                    through our commitment to quality, craftsmanship, and community.
+                </p>
+            </div>
+            
+            <div class="features-grid">
+                <div class="feature-card">
+                    <span class="feature-icon">☕</span>
+                    <h3 class="feature-title">Premium Beans</h3>
+                    <p class="feature-description">Sourced from the finest coffee farms around the world.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <span class="feature-icon">🔥</span>
+                    <h3 class="feature-title">Expert Roasting</h3>
+                    <p class="feature-description">Bringing out the unique flavors and aromas of each batch.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <span class="feature-icon">👨‍🍳</span>
+                    <h3 class="feature-title">Skilled Baristas</h3>
+                    <p class="feature-description">Passionate artisans trained in the latest brewing techniques.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <span class="feature-icon">🌱</span>
+                    <h3 class="feature-title">Sustainable Practices</h3>
+                    <p class="feature-description">Committed to ethical sourcing and responsible production.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <span class="feature-icon">🏆</span>
+                    <h3 class="feature-title">Award Winning</h3>
+                    <p class="feature-description">Recognized for excellence in quality and customer service.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <span class="feature-icon">💡</span>
+                    <h3 class="feature-title">Innovation</h3>
+                    <p class="feature-description">Exploring new methods to elevate your coffee experience.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <section id="beverage-of-the-month" class="beverage-of-the-month-section">
+        <div class="container beverage-container">
+            <div class="section-header">
+                <h2 class="beverage-title">Beverage of the Month: Spiced Caramel Latte</h2>
+                <p class="beverage-description">
+                    A comforting blend of our signature espresso, steamed milk, and a house-made caramel spice syrup. Topped with a sprinkle of cinnamon and a swirl of cream. It's the perfect treat for any season!
+
+
+                </p>
+            </div>
+            <div class="beverage-image-card">
+                <img src="data:image/jpeg;base64,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" alt="Spiced Caramel Latte" class="beverage-image">
+            </div>
+        </div>
+    </section>
+
+
+    <section id="menu" class="menu-section">
+        <div class="section-background">
+            <div class="bg-pattern pattern-1"></div>
+            <div class="bg-pattern pattern-2"></div>
+            <div class="bg-pattern pattern-3"></div>
+        </div>
+        
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">Our Menu</h2>
+                <p class="section-description">
+                    Crafted with passion, served with love. Discover our selection of premium 
+                    coffees and artisanal treats.
+                </p>
+            </div>
+            
+            <div class="category-filter" id="categoryFilter">
+                <button class="filter-btn active" data-category="all">All</button>
+                <button class="filter-btn" data-category="hot-coffee">Hot Coffee</button>
+                <button class="filter-btn" data-category="cold-coffee">Cold Coffee</button>
+                <button class="filter-btn" data-category="specialty">Specialty</button>
+                <button class="filter-btn" data-category="tea-others">Tea & Others</button>
+                <button class="filter-btn" data-category="pastries">Pastries</button>
+            </div>
+            
+            <div class="menu-grid" id="menuGrid">
+            </div>
+        </div>
+    </section>
+
+    <section id="testimonials" class="testimonials-section">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">What Our Customers Say</h2>
+            </div>
+            <div class="testimonial-grid">
+               <div class="testimonial-card">
+                    <p class="testimonial-text">
+                        "Brew & Bliss has the best coffee I've ever tasted. The ambiance is so relaxing, and the baristas are true artists. It's my new favorite place to work and unwind."
+                    </p>
+                    <p class="testimonial-author">- Alex M.</p>
+                </div>
+                <div class="testimonial-card">
+                    <p class="testimonial-text">
+                        "I'm a regular here. The coffee is always perfect, and the pastries are to die for. The staff is incredibly friendly and they always remember my order!"
+                    </p>
+                    <p class="testimonial-author">- Sarah P.</p>
+                </div>
+                <div class="testimonial-card">
+                    <p class="testimonial-text">
+                        "A hidden gem! Their cold brew is a game-changer—smooth, refreshing, and incredibly flavorful. The atmosphere makes it the perfect spot for a quick break."
+                    </p>
+                    <p class="testimonial-author">- David L.</p>
+                </div>
+                
+            </div>
+        </div>
+    </section>
+
+    <section id="about" class="about-section">
+        <div class="about-background">
+            <div class="about-pattern pattern-1"></div>
+            <div class="about-pattern pattern-2"></div>
+        </div>
+        
+        <div class="container">
+            <div class="about-grid">
+                <div class="about-content" id="aboutContent">
+                    <h2 class="section-title gradient-text">Our Story</h2>
+                    
+                    <div class="about-text">
+                        <p>
+                            Founded in 2018, Brew & Bliss began as a small neighborhood coffee shop 
+                            with a simple mission: to create the perfect cup of coffee while building 
+                            a community of coffee lovers.
+                        </p>
+                        <p>
+                            Our master roasters source the finest beans from sustainable farms around 
+                            the world, carefully roasting each batch to bring out unique flavors and 
+                            aromas that tell the story of their origin.
+                        </p>
+                        <p>
+                            Today, we're proud to serve our community with artisanal coffee, freshly 
+                            baked pastries, and a warm, welcoming atmosphere that feels like home.
+                        </p>
+                    </div>
+
+                    <div class="stats-grid">
+                        <div class="stat-item">
+                            <div class="stat-number">5+</div>
+                            <div class="stat-label">Years Serving</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-number">10k+</div>
+                            <div class="stat-label">Happy Customers</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-number">25+</div>
+                            <div class="stat-label">Coffee Varieties</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="about-image" id="aboutImage">
+                    <div class="image-container">
+                        <img src="https://images.unsplash.com/photo-1559056199-641a0ac8b55e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1200&q=80" alt="A collection of coffee beans in various stages of roasting, displayed in bowls.">
+                        <div class="floating-element element-1"></div>
+                        <div class="floating-element element-2"></div>
+                        <div class="floating-element element-3"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="contact" class="contact-section">
+        <div class="contact-background">
+            <div class="contact-pattern pattern-1"></div>
+            <div class="contact-pattern pattern-2"></div>
+        </div>
+        
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title gradient-text">Visit Us</h2>
+                <p class="section-description">
+                    Come experience our cozy atmosphere and exceptional coffee. 
+                    We can't wait to serve you!
+                </p>
+            </div>
+
+            <div class="contact-grid">
+                <div class="contact-info">
+                    <div class="info-grid">
+                        <div class="info-card">
+                            <div class="info-icon">📍</div>
+                            <h3 class="info-title">Location</h3>
+                            <p class="info-text">
+                                123 Coffee Street<br>
+                                Downtown District<br>
+                                City, State 12345
+                            </p>
+                        </div>
+
+                        <div class="info-card">
+                            <div class="info-icon">📞</div>
+                            <h3 class="info-title">Phone</h3>
+                            <p class="info-text">
+                                (555) 123-BREW<br>
+                                Call for reservations
+                            </p>
+                        </div>
+
+                        <div class="info-card">
+                            <div class="info-icon">🕒</div>
+                            <h3 class="info-title">Hours</h3>
+                            <p class="info-text">
+                                Mon-Fri: 6:00 AM - 9:00 PM<br>
+                                Sat-Sun: 7:00 AM - 10:00 PM
+                            </p>
+                        </div>
+
+                        <div class="info-card">
+                            <div class="info-icon">✉️</div>
+                            <h3 class="info-title">Email</h3>
+                            <p class="info-text">
+                                hello@brewandbliss.com<br>
+                                We'd love to hear from you!
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="contact-cta">
+                        <button class="btn-primary large" data-action="directions">Get Directions</button>
+                    </div>
+                </div>
+
+                <div class="map-container">
+                    <div class="map-placeholder">
+                        <div class="map-content">
+                            <div class="map-icon">🗺️</div>
+                            <h3 class="map-title">Find Us Here</h3>
+                            <p class="map-text">Interactive map coming soon</p>
+                        </div>
+                        <div class="map-decoration decoration-1"></div>
+                        <div class="map-decoration decoration-2"></div>
+                        <div class="map-decoration decoration-3"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="container footer-grid">
+            <div class="footer-section">
+                <h4 class="footer-title">Brew & Bliss</h4>
+                <p>Crafting bliss, one cup at a time. Join our community of coffee lovers.</p>
+                <div class="social-links">
+                    <a href="#" class="social-link">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-instagram"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg>
+                    </a>
+                    <a href="#" class="social-link">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-facebook"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path></svg>
+                    </a>
+                    <a href="#" class="social-link">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-twitter"><path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z"></path></svg>
+                    </a>
+                </div>
+            </div>
+            <div class="footer-section">
+                <h4 class="footer-title">Quick Links</h4>
+                <ul class="footer-links">
+                    <li><a href="#about">About Us</a></li>
+                    <li><a href="#menu">Our Menu</a></li>
+                    <li><a href="#contact">Contact</a></li>
+                    <li><a href="#">Privacy Policy</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4 class="footer-title">Subscribe to our Newsletter</h4>
+                <form class="newsletter-form">
+                    <input type="email" placeholder="Your email address" required>
+                    <button type="submit" class="btn-primary">Subscribe</button>
+                </form>
+            </div>
+        </div>
+       <div class="footer-bottom">
+    <p>&copy; 2025 Brew & Bliss. All rights reserved.</p>
+</div>
+    </footer>
+    
+    <div id="itemDetailModal" class="modal">
+        <div class="modal-content item-detail-modal">
+            <button class="modal-close-btn">&times;</button>
+            <div class="item-detail-content">
+                <div class="item-detail-image-container">
+                    <img id="modalItemImage" src="" alt="Menu Item" class="item-detail-image">
+                </div>
+                <div class="item-detail-text-content">
+                    <h2 id="modalItemName"></h2>
+                    <p id="modalItemDescription"></p>
+                    <div class="item-detail-options">
+                        <label>
+                            <input type="radio" name="size" value="small"> Small: <span id="modalSmallPrice"></span>
+                        </label>
+                        <label>
+                            <input type="radio" name="size" value="regular" checked> Regular: <span id="modalRegularPrice"></span>
+                        </label>
+                    </div>
+                    <div class="item-detail-buttons">
+                        <button class="btn-secondary add-to-cart-btn" id="addToCart">Add to Cart</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="cartModal" class="modal">
+        <div class="modal-content cart-modal-content">
+            <h3 class="modal-header">Your Cart <i class="fas fa-shopping-cart"></i></h3>
+            <div id="cartItemsList">
+            </div>
+            <div class="cart-total" id="cartTotal">
+                Total: ₹0
+            </div>
+            <div class="modal-buttons">
+                <button class="btn-secondary" id="closeCartModal">Close</button>
+                <button class="btn-primary" id="checkoutBtn">Checkout</button>
+            </div>
+        </div>
+    </div>
+    
+    <div id="signInModal" class="modal">
+        <div class="modal-content">
+            <h3 class="modal-header">Sign In</h3>
+            <p class="modal-text">This is a placeholder for your sign-in form.</p>
+            <div class="modal-buttons">
+                <button class="btn-secondary" id="closeSignInModal">Close</button>
+                <button class="btn-primary">Go to Login Page</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+       document.addEventListener('DOMContentLoaded', function() {
+    // --- DATA ---
+    const menuItems = [
+        { 
+            name: "Signature Espresso", 
+            description: "Rich, full-bodied espresso with hints of chocolate and caramel", 
+            price: 4.50, 
+            category: "hot-coffee",
+            src: " https://upload.wikimedia.org/wikipedia/commons/thumb/e/e4/Latte_and_dark_coffee.jpg/500px-Latte_and_dark_coffee.jpg"
+        },
+        { 
+            name: "Artisan Cappuccino", 
+            description: "Perfect balance of espresso, steamed milk, and velvety foam", 
+            price: 5.25, 
+            category: "hot-coffee",
+            src: "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBwgHBgkIBwgKCgkLDRYPDQwMDRsUFRAWIB0iIiAdHx8kKDQsJCYxJx8fLT0tMTU3Ojo6Iys/RD84QzQ5OjcBCgoKDQwNGg8PGjclHyU3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3N//AABEIAJQAlAMBIgACEQEDEQH/xAAcAAABBQEBAQAAAAAAAAAAAAAEAAIDBQYBBwj/xABBEAACAQMCAwUFBgUBBgcAAAABAgMABBESIQUxQQYTIlFhMnGBkaEjQrHB0fAHFFJi4TMVJFOCo9IWQ2NykpOU/8QAGQEAAgMBAAAAAAAAAAAAAAAAAgQBAwUA/8QALBEAAwACAQMDAwEJAAAAAAAAAAECAxESBCExEyJRMkGhBSMzgZHB0eHw8f/aAAwDAQACEQMRAD8A3h0rzOW6UHfX11Zp30MCOV/rBOKJNrJMoMerZulHi2FxZMkntg4ORWFkyVvjJrrivqMsvGeLX0JaeVVAYeFBjarDh0AWdi/Nq4LLCSquBjr7iP8ANT2jYMjH2lwT6gb/AOKVdVT97GHxmfYivubX+XvH0jY6vwzRPZ/WDOjjwHlRPEYszsfNvkareGyPHduDnSXHLl4mAqO00S3zgNuSf5WZueAaxUUw1eE/eNa7i7PDalUGxcKT5c96x5smtB9oxPibc+n+aJtbCxfSOvLp9JCkc6K4Y5aMysORpljwPiPEjqtrOaRTnDBcKeg3O1aSx7HcSiiCzNbwrzIeTP4VaoyV4TBvJjlab7gcV0RIFVtNXEV0ML498b1FD2ZithIbjjNosjHmNwo+dRvwS2bAj4/aj3L/AJpjF6sP/KFcnpZF5/DLJJY7pNDnDdGoVoWVyr8xXbLgzxt4OLWU3l4sGrK64beNbBkRZHT/AIbA5FM3HqTy13KIv03x3tFeTjYVwAk1wJIrYljZG8mGKmAyNqU18jW/gaBikAWbAp2CdhXJGES6E3J5nyqTiN5UjYrzpVGNPln1rtRsnReWP2cMjqB4MZ9c1Al/CJysrhWk8Iztkjp9alscvBdJ1Kgj4VxYY5xiRFYetMV0/qSmmJu1NPkgJ3QRyLjBwQw8+dV9mqm6lZskd0AT12/XNX1xwhZiHhkaN/mD76gXg88bFlCNnYgbZ8qSvpMyfjsMxnxOdb7g/EnCSZO4GD8waq+HgTX0yRkBWddj6YOfxq14rBKUzpwNIBztQXB7QWYbinEn7u2iY90mPFM3p8v3vVCi6ycdFquJw72G3nCLniXdlGSGJWDPLINgBnp1qFrjgXDtH8tbDiFxGMLJJgqN858vkKruJ8WuuLsVcmK2Hswryx6+ZoQOq7IN+rHpTDuMb9i7/L/oBGO7Xvfb4RbXPHeJXI0iUQJ0WIY+tV8hklbVPM7nzdyx+tDNMScJv61xXYvpbUT5VReaq8svnFM+EFJEnT6VoLHgEM1sskkjBmGRpPIUDwTh4vJWD+yoycVqLBO7gER5xnSQac6LD6j5Wuwt1eZwtS+5nJ+BSpE8oKFFyQOpFVyLJE2YZJIyOqMQa1V8Xvi1vbEaF9t+mfKqGSBlYgg8+ear6iFjr2eA8Fu59/kdFxe/jGiYrcx/0TLn686KhurG7IjH+5znkjnKH3HpQGjBw3PyprxK4xQz1FrtXcKsEvvPYPule0OiRcOeXr7vOgXbU2lTuedSW92bdRbXoMtoeR+9F6g/lTpLNrWU5YOhGpHHJh0NXNqluf8AgC3L40cGlAFxvXKYXJOQM+tKgDLe0kFvMrsdjs3uNSMDbTFOa81PmKCeTOyUTbSpNGtrO4WVdoXPL3GtDDevaIZo37ixgmG2+aORwRVCkjwyFJQVYHcEUfBcg9aaQpoMuLSG6ULKpx/acVhO0F6b/iJjQ4tbc93Evu5mt13mbeZl5rGSPlXmsew9aQ658UkvuO9HPKm39hOdKgDzrttDJeTd1F4QN2PkKY+cn3Vd8EixYMy+0SSaytNvRpb0hq8JjbKxOAi+3IeZPkBTouEgXEa+yrnOrqRVpHCXsFMe5Ubj160dbxQ3UIPJ16g7qaYjplb0L31DlDba1/2fIWiXVA4GQOa+tFPolj1JJhGGGYHkOtISSxbSJrXlrTfPvFMla1dTJIRpDeIEYJPTIrUmZieK/kZ7bquT7joWDxiO0XTGPv4wPh50JxGBD3MMezenlRYnmlwLeEhejybAD3c6QUW+TkyTP16/4FRkmbnj+f7Ew3Fb/wB/iUssQkB1jxIcMQOYoZrcwzNHnI5r7quZYTFCy4DSybUFeroEJONQXBrLy4tLb8j+PJtgM0QeMiiOFg3vDbi0feS3+0iPoeY+f41w6TGxJxtmpuyalr+dvurFg/E0XT/vVPyd1D/Z8vgEVDjZTj3UqLdgjsq8ga7VjSRypsgAwdhTJ4wyHbOelTbYzypuOpq0rB4+LCJRBxZWkhGyTqPGnv8AMVYxRM8QntJluIDykjP4jpVPewCYbiqTF5w6fveH3EkDdShxq945H41dGdrsym+nT7yeh8MnzIY5eTDFY3i1k3Dr+WFgQucofMdKVt23uYGA4nYRT/8AqwnQ/wAuR+laaOSw7WcMWWBtMy506vaU+Rqc0z1Eal90BidYL3S7GNkGwYVY8FvRbyd1L/pvuD5HyqG7s5rCdoLpMeTeY9KHMRXdc6fKsepqKNSeNybGNXtz3tuNcZ5x/mKIQWl0wZG7uT08LCstw7ik1phSSy/0seXuNXMXFbKcDv0wfMj86cxZ41p/kUy4aT2W4juVHhmDj+9fzFLRJqBaFO8PIg5GPOhop7Ugd1dMo8tefxoqNldTi4Bx122p6bivD/InU0vK/A8JKd5JeXRBgVwMiZWFdTnnj8zUL3Nmn+pOGI6Fs1BLxi3jGmJGYHqowBU1mxz5Z04rrwgopoDSSMpcj2j0HpVJcOJJNQ9keyK5d8TeYkHYdFXrQJaWdhHGCWbkibk1m5syyPjCH8OFwt2xXcwxpG5PlWh4Va/7K4XJNMNM8viYHp5CmcH4ILcrc3ukyD2E5hf1Nc4jefzT6EOI0+ppjBh9GfUvy/BTly+tXCfH3AcZ3PPrSqCWchyExgeddqljCJDuc/Typje/4UicnbnXdGkEud6sZWiJhndhtQ00KuCSNjyFEE6iT90U0jPiNCGijuuHAnOkelH9kdVjxCaLB0TJn/mXf8M0cIhIfEcDnipIIhFcRzAbqQR7utHjpzSYGWVUtGhkkt7uLub6JZEbkcZqpuuzGcvw24Ur0jk/WjZVKDMY1DOTihop/tQIpSpU5wNj5bj41oZMEZV7kZuPNkxPsyluOFXkH+taSY/qRdQ+lDhFXbVpPuxWrXiVymxZWH9wxTjxRH/1rMSeowaTv9Ol+GOT+oUl3RlVBG4cfOiLe4aMMrsulvawavzdcNb2+Gn/AOoGpFn4aPZsf+lVa/TqT2qCfXy19JmixLYSQEdMDnU8Vhez47u3mPqy6R9a0a8Rt4x9lbFfLCgUxuJzN7ConvOTVk/p0+aYD6+vsgG17OS+1czBF/pj3PzNWlvHZWPgtIwXPNuZPvNAz3L5xPNn+0nA+VPhy6k4ZVx15n4dKbx9Njx+EK5M95PqZPLcPIjuW2UHkdqpbmQRpj7xqzvSILRVAABPSs/hrm4O+FHM+VK9Xe60N9JGp2OVNQyRk0qJ1AbLsBXKU0ObJMKgx8yahJ1uS2dPSuMTKx0n7MefMmnY2339POrSoZnUdx8KSjLeLn0p2MHI505V0jOag44AAWY8+VdJLDGT60tRY46+flUka5x5Cu0dss7Zi9smeYGn4ioJ4l1AkZJGCfSn2DbOnPG+afOtamKtwjLyzq2V7QyIfs5Mrj2XGfrUbd6v/lqfc1HsvKomXejAA3kZTvFJ/wAu9JZTjaCX0zgfnRZXfOK6q1JxAolDgiMYxk6m5fKpUjndgDKI16hF3+ZqRFwTU8Y3qDhiQxiYuEAbqcb0VGPCMnmdqjQeI0QgxjyFSQUvHJy1wsC9FwR6mhVAij7td3O7HzNdLGa4lnHVjikVOgnOCds1j5Hyts2Mc8YSHDCjDYJpVAZRGdOGJ64pUIfcJIyNtlHIenrSB0nak7HGMbHzHOl0xncn5Vayo6SGJz5U0jIxSMgzjGxqaJDkZ9rpXa2dvQ1IicDHxPSpiAV0qcIOZHNv3511jkFU5efSm6gBtnA+ZrvBHkkt3KToc4T2T8aNlHh5VVnJyc6VHM1YXFwV4dNcouWSJpFXzIBP5U10teZFepnwwS+4jYcOh18Qvba1T+qeVUH1NVk3ajgSrtfpJnl3UbyZ92kGvF+OcWu4+IMkcsj38iK013p1TO7AHSrc1UZACrjl1rI3l7fPJIlzdXROcMskjZ+INO8RTZ9JDtbwMjxTzpj+qzl/7a6O13Axn/epf/yTf9leBdkezc3GL2AyN3Nq0igM+UE41AMFbGNs7+QOeVabtb/D7iNmI5IjZWzOCsdql0zPcMMkaQRzxgY3399RpEnrcPargchx/PNGfKS3kT8Voyy7QcEupu5t+L2Mk3/DFwur/wCOc18uzjiPCrmSzllntpomw8YkI0n4Grmy4hxZOH97eNJc2XeBNN4nexMcZ0+Lk2N8jcDfNTxRDZ9PxjGPWuXr6LSUjmRpHvNZP+GF7Nc8KnheWWW3iaOS3aZy7rG6BtBY7nScgZ6Vo+LMG7uHVgZLHf5fnVOZ8YZZinlaK6NBjH3BufWmTSjdvLlT3IVMLz6fv99aBnYswijOMdR59T+NZRreRqJJICy8s8/OlRKQKEUHIAGABkbfClXBbCiBgBicjkPL0qPBY4zv5D8q4ckY552X0omKPu1zJttknyq3RQNjj0HJG/4VNpzy6cz++tOVAF1YIAGVzUbPnOcgL0HOp8ECB1ZPJR9aaFLNqJAApy5dsY/wK42nQQp8GfnQkkcjK5B3CDcedHcMcvE6Pg6W9n0P7NVsjlnKqPeQKm4dL3d2E+64x8elHhrjkQGaOUM8f7SWcfZjt1ZXV5DLJZQzI5CDLFV5c9uQXBzuQ3lVh/PdmeJ3V5xK7ezle4trXvFuoY3lWVZtD+EsBlkIOQc4yemK9A7ddmYu0fDsaR/MxjwHONQznHv8vj0Jrx/h08PZo31jfqllfyzoUvJYiVaJdmj1BWaPJOchSeh6GtXfYzAjiFhwrh9j2qli4VGkvCL2OO0kt7yUHRKXwSQ2Dgad8ctjnnV5/wCEuHy8Z4hEbe+u5LeSEWbXN3KIkBhDsveLko2ckFhp5Cs1ew9nOPXBkk4ykV5KUg7qziYI5yqqTrUd4TlizeHkNt81u+I2PDOEwcSvSqqlpCkYZoy7MuM5lDEazgDAb+7Bw2AJJl4uD9n7bsdFHePw2LipSO/MrShpShmPgz1GjTy570zt32jsu04t7LhcX2v8/ITNGoEco9mNgPRVGc+WapJV7BWjzpAvEuJOyBIAAUAbfxZOk6vZ2wQMHnnbZ/wy7ENM44lxOAJACRHCTnO/s+vLc/DqcSjj0HsFwn/ZXZ6JCPHNpYZz7AUKnPf2VB+JoPi/Ew/FZlUnTGQg9Mc/rWpuLhba2e4k5RoXPrivKjM5Ys5OtzljSnU12SG+mnu2ahbzvDqPKibeEBFY7nGT7qzXD7gtKqsfCN8VozIxiVc+J/a9P3+tIDw5meViyOAvIevrXaIjJhQIpTbnnz/e1KoJ2ExJp5c8b56U5VBI0gn+kH8TTlUswUA774PP3mnuwQlF3b7zUxoX2NkbSNKnJ+8ajA2XAyPWkSADqGx6V0ajzyMDfHT0qGSjpHh0A4X7x8/Sh7p9LaV2bGAB0/zUzSqoAXp5VDg51ADJ5f2/5oWEiBh3Y0gAk+0R0pk2qCMSLnWuCvv9aMij31YGMYH61FPFrRl6DmaFeSX3Wi0juEuYEmiPhdQRVF2l7McN7QRMt5EFlI2cKDnHLUOo+vkRQdtxI8JuHhkGq3Y7b+wavYruKYfZOG9OorTx3ynZm5Ic1o8h4n/B65QytYThx0UOPoGA+rfGg7X+E3HJ52Fy0iKTkvI8YyfPZ2P0r2zvd8Z5V0SAfCj2VmL7Mfwx4XwiRJ7ljPIvT9W/QL65rfxqsaLGgCogwqqMADyFDd6q7swA8yaq+LdorexhPdnW52XA5+7zqG15ZKTfZHO2/EVg4d/Jo32twwBHkg3P5D41hMljUl1cTXk7z3LapG2/9o8hSgjzk1n5b512NPDHCdBPDhiUMc4U5PrWlswwUzyHlyHr/iqawgLOFFXs2IbdcDcsAvqfP9+lVMtJkGVGpAfypVLC5giVGGpsZbHQ+VKhOLUeCHw8yMk1AQM/D50qVMC5yPcFjzFKU4AUcjzpUqFhIhYDl0pqe18RSpUIRJMSFABxkj65/SnNgK+B7IOK5Srjil4jBG0XiXOV1HPU1mJ7iWxlxA50ZHgY5FKlRw9V2ByLc9y3i4hdYj+2YZxnr+NTXN/dRDKzE+8D9KVKn14M9ytlNxbil3HMIxISG+825HzoNF1MXdmd8ElmOSaVKk81Peh3DKS3oSgE4o+JAq7DlypUqXGS54WiiMHG5f8AT9asWUPeYYZEajSPrSpVzIJQAc5HWlSpUJx//9k="
+        },
+        { 
+            name: "Cold Brew Supreme", 
+            description: "Smooth, less acidic coffee brewed cold for 16 hours", 
+            price: 4.75, 
+            category: "cold-coffee",
+            src: "https://t3.ftcdn.net/jpg/15/57/17/02/240_F_1557170261_nAEsWJzhKp5KIPN2e0KNaJT1oxoPlfUc.jpg"
+        },
+        { 
+            name: "Caramel Macchiato", 
+            description: "Espresso with vanilla syrup, steamed milk, and caramel drizzle", 
+            price: 6.00, 
+            category: "specialty",
+            src: "https://t3.ftcdn.net/jpg/15/50/13/42/240_F_1550134299_SnaLs2w41ke30DFU9VPwtwEnxxm0KX8i.jpg"
+        },
+        { 
+            name: "Matcha Latte", 
+            description: "Premium Japanese matcha with steamed milk and honey", 
+            price: 5.50, 
+            category: "tea-others",
+            src: "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxMTEhUTExMVFRUXFxUXGBcVFRUVFxUXFRUWFxcXFxUYHSggGBolHRUVITEhJSktLi4uFx8zODMtNygtLisBCgoKDg0OGhAQFy0fHh0tKy0rLS0tLS0tLS0tLS0tLS0tLSstLS0tLS0rLS0tLS0tLi0tLTUtLSstLS0rLSsrLf/AABEIASwAqAMBIgACEQEDEQH/xAAcAAACAgMBAQAAAAAAAAAAAAAEBQMGAAECBwj/xABHEAABAwIEAwYDBQMJBgcAAAABAAIRAyEEBRIxQVFhBhMicYGRMqHBQlKx0fAUYuEHFTNygpKiwvEjQ5OkstIWJFNjg7PD/8QAGQEAAwEBAQAAAAAAAAAAAAAAAAECAwQF/8QAJxEAAgICAgIBAgcAAAAAAAAAAAECEQMhEjEEQVEi4QUTMlJhcZH/2gAMAwEAAhEDEQA/AH9MXW6jFtu6jr1CDCYjoiyS5riSym8jcAptVqQFWc5rgghQxM82biSCTO5JPquary5dY2hpeR7KOmYUEk/etaI3IUNTFE9Fy9qihMZuUXhsQdpvwKDWwUDPSO0zz/M2DJ372kP+XqfkqLVo8QrvnJ1ZFh3HhVpf/XWb9FSMPX4FKPQS7OKplscrhBp/hcLquBMgj3SNlMl2nrHsmIPoMhoUdejNxv8AimD8OIs4Ty2UQpwYPvwRyQCsrYcQj8XQnofxQDmkbpCJqFe99l1iZItshUZRwrtMjYhFjsCKxbesTA96fUAKUVcfNSEs7RZmQfD7pJTxx3JurkxlozDFECyqmOxRM3XOIzNxtKXVKkqLAhxNMP3QFajpTEBHUcqNVuyKEVZxXAVkPZKq7+j8UcDYoNmS1KlUUQ3RUg+F3hkjkihCnSuYU+Kwr6Tyyo0scNwbH+I6qNAz0It15DSH/vsH+PENVRxeUPZ8UK2YR4GQAnZuIpn/AJir/wByaZpk+tgc2CCAfkiKKZWOzWGcx9yHN4hAZxgBTxctEMfLm9OY90+y1uirB2hAZ68ax0Nuk7hDVE0LcY20gICi0gSZT2BshMZStZA6Er8S4m5WqlYkQuKjYJC5QI21ybZTjgAWG44fkk5XeHd4gk1YVZJixDz5rETjfFc7hYmB6NmmTOaCI1DmqpisIQTEq8Pz8O1gCTdD9nwx4eXgSTxVtJsZTGYRxEgLVPBvdsCvRsFldOTYLt2XMaZAScQPO24JzCJEeatGV0nU9JLZaeXBcdpqJMOA2RGSZ8xtMNfuERpAWJtBtnNXOZZW2qGviKtM6mO4yOHkdl3g8ZTqDwkItroWgCXOcBQxlId4wTFnCzmHjdeeZh2LqsJ7tweORsYXpjqEOcW7OMx14qGphXKWgoqf7O5mQ1mPEObVpyD1xA/7kV2X7RB1BtN27W6Z8rBPsbg5wGIY4TJpmP8A5WKiUcD3JJE6T7hZrQMa6gahKVYhodUPFFU73F1C2iWulMAWtYrivsu8aeKirVJaEAKMxpXlBEJrizKW1WQkIjIWhuupWykJhreqxMH4XVSD23gXWITGmO8I+HGVcsnbTLABEqiPq/7Toj8oxxY+Wn0WidMZfX4fQJaoRWndD0s4a5vVcUK4cbJtjJMThg9pC87zF2h5HIr0xpixVC7U4ICoSOKTQmayjMS0y0weStuWZiam683a8jZWnszi73SiwL3ThStaCkLsyh2lNcLWHMe4VjCnUA5lVvNrfk9qrGY5eANlbqDx4zIjRz/fak2aFp2I9wl8jZV8NlzZmIPTj6LWOw4AR7hBQOY1LKaJKxj7Je6ojMc+SgKoSAiqOUZbK7WkACVacLhoRjghXtgpNA0PMpzDRqaR4XCPIrEuaViXFC4offEWplhqQZVE7FJqbvC0jgUd+2FxBPBUMa4h+hxjii8mxB1pfUOoStYTE6HAoAvONvTMbwkb8u7xhLxMKSlmodZF1XmGAcSZ8oIP4hX6GJaXZqmCJ8exgy1sHnpIPzCTYmabyGDS0HgNvXdXjAOL52FyNjs2w4oV2SjUSQCPxKhrVioiwtKabXG1uQkpjgX2QLKomDPsiwAI39iiNvYx3Qf8f9T/ADNSnEuk3THCP+Pf4Dw6hLcS8a2i/wAQ4dQq+RsQ45oBkDjdJK+J/wBppmRH1AVgzzEUmh0lw+K4aDG/7wVXdWomuHBlSHSWy9oABNgQGkn3Clsk6xWWse4NEtJFiL3PMHcX4Qq5igWucwwS0kGNrK6V8cAYa1rBpi0ydvtGT6THRUzMWaajh1/G/wBUl2BBKyVzKwlMDZK4e2VtYmM0xy0slYgBvRFkWynJEKJ1LxFG4NtwpEN6FKKaS4w6TZP2VBpulOPc0myYHOFxGyteV4jWW/utd7mD/lVPw7eKtWQNhjndD+EfVEQDez7/ABPPAEhNalSQkuQugOPUn5lNgfD6fRVHYwelSBuUUXCwQlJjp6I40gLqgCsMbu/qO+iRZhitD289QjlM2noneGMaj+4/8FUs1c91VkWl7fTxBT8jF+cPFSm/nc+qrhf4WH7pCIzJ9UOeD99wPo4oHUdKzbENKz9TmEef+FV/MB4z5o/LKhD2z+h+iuO0tLTUDhs4H5FO9i9ipaJULqi4c4qhkrqijdVUaxAGy5bXKxAi21m+JE1XhgBChxrrhC42rIUgS4jNCbBDtxBQQUjSgCw5JQ750clbizusPWAbIFgeR8N/mR6rz/K8wNJ4cPVel0G68KdVg+XO5nxAxPDYItKLAGyFkUNZG8/JG1KwFzYBT02hlEMDXaQ7gSRJgbbeqBzSqWtcdBIjn/BRLK4xtIL0SfzlS4En+qx7vwC6dmjI+F/90D8SlmBxIeIYw6o2IAHuApe8rAw+m2+xZVBt6tEHpC515OWSuKQrY4wGLDg/wuGljjfTfwnaD04pbiSSQ5tMyCDB0jYg7ymOW0tIqwb927jt4XcUAxtQ/EWnlEiPMzf2VPJlpfP9fcdsrOZZPjKj3aaIALi742TDjI3I5pViez+JY2XUXQOUO/6ZXoGOxB1DTAgNud/hHCL+6lw9c85XJk82cJ8dMVnl1CgQQTwcPMIntRhppU3ciPZzfzC9QHd1hFSmD1iCPIpH2zypowdUb6QHsPEaXtLh/dlXj8yM5RaBnkncLTsOUSCFuy9UoAfRKiLU0MLRYDwRQCtYmX7M1YigGlWXGy5q4UwjMDGoSnfcsIUJAUwsKkaxPccym0XSuvXotbZ1+SKADLbxzt7r2UMpvpBhJZaJABXjmW1u8xFJo41GewcCfkF6fi8UGsC5PJlKK0JjrD4ZzGgNqah5R9UJmlKqWETIg2uRdKXZxpDOBP5T+SkxOcuAlsmImN1ySzy4U0LQFl2H7upqfrty0tb/AGp3TulnFAzp8UbkNmPMwlr82Dmz3gM8wfZaZnJa2GPE3tMb79FGDzHBcaEnQ6oYzUXwwxode0HwutZdAti5A6TEfNV4Zobyehgj58YuuaGZgO0lovsQnLzpftsORZnMaTZx4bEHgumYQ8CfUIOhioEkWtcbXMJ9hnJQ4+R2qKQNRwxbuu83y7vcPWYftUqg92GPnCZMCKpMnyWmH8PUXt6Ko+XmVrAroVFrMMN3VWpT+497P7ji36IfUvXsQWHqQV+UJdKyUWAxFTqsS5bRYDupig02UdTN38ClxK0lQElfGPf8RKHhTALoJgMOyNGcXSP3dbv8DgPmQvQqxkgcp97Kl9jWTXceTD83MH5q3Gke8J4D5kx+S5M+5USxfjqckX2M+6GxFciwMu4dOqNxjfFz5pc+idUrOUKQiCtWOmOf6nzWUXWXWKoybArnZYKKoDNcIqhJaHD7LvYFLH1Lqwdn2hxLTs4QlkhUbG0F1S40m3IvBgnY8/UK4dm8UX0hquRaecKsYamWE03i36gj8VZMioaGbg3MKfHko7FAsVIoqmgMC6WhHMXrQ2rNT527fYTRmOKaP/Vc7/iAP/zJB3ZXo38qNGm3Hvc4wXspu/w6P8ip5xFLmrokU90VndFNP2qmtHGs5IAWd0ViYUXtcsVcTZYk12AwsWiFpSYnUroOUawIAt/YRkmq7+oP+o/krViHqu9h26aJJ+1VcB5Npt+pKfYg3XNP9TEB4l6Dxw2jzU9QySP1ZC1atgmlaAGqV7bpdXrIys0FCPohSsaTBETHK19mfiVWaxWnstS8QCnLFNAW7E0A5k8W3B6cQpMpJI9Uto451WWsEMmJ4n8kzyLEAuc0CzSQOZgXJXFwjOVREux7lzpbP6tb6JgxCYdsCB+pRTF68FUUjQ8j/lvw3/mcPU+9Sc3/AIb5/wD0Xm3dL2v+VfBteyg532XPb/faD/kVCw+SCodNNpJ/D1VLZJU24Zx4IrC5NVqGGifISrszK6NH+mcCfuMI/wATuCm/ntjG6KYaxvJu/q7cp0BX8N2PLRqrVgy3wMGp5+gWJpUzJp4/rrzWJjUmiirAxFd1yC6FEpCBRTUjaRRAorfdHqgCwZDLf2ZnA9473c4fg0J/iHqDK8EBSovI8TacD+1f6lbxr4b5Lkm9ksU1MeGVLibHZK8TjiakxDeX1UBq6nucoqu6paQxkaw2KHqVgpaOl7B95oj8kPXaW8JVJgabUJVp7PPLQXcmujziyqVGpKs+S1IHnAWHkyqFoTHeQVdFjsbfxCsmS4E03vcTOol1uEqtClBkK05RidQvvxXD4WROVMUB3TRLELSKJGy9pvRqVL+Uuo1uDNRzdQZUpmJjc6N+XjXkmM7UVXDS2KbR9llvc7lez9tcL3uBxDP3J9WEP/yrw92Tu6lZYZclZLBHY1x3J91gxh5IoZK8/ZK7GRv5LYQJ+3HksTBuQv5LE9jG9DK9ZimQ/qA75EgLDld4IIItfmiexGesfXZSrkhxs18NAkbB3U81dM4w+GqYo0y/TULGvIERxE/LmlOcY+zoyQx0uDZSKeXAeikdhW8k8xuCDDDXteL3aduhAQndgdT1VJ2rOcYaIa0Dg1o9gFWe1GKgaQd1aXmRPRef9ojNZ3ouFL6hAuF4ot9EQhcAwmwTao2ArkwFbEXQdvKEBXL6sAqWgIqZ8afYCv4g3kq7hzLkwymrNSeqnNG4gz0PDjUAQj8NLTIQOTjh6+6OggrwZNwdolD/AAWLB6HkUyZVVZouTLBvuvQw+dKSplphWYN1MqN5tcPcFefPwzRyvtdXzH1w2nUedmse4+TWkn8F5AO11GPheZ6N/Neh4UrTAtAYyAI2PS6idj6jnlmGbSLmCDLgA1wjhBkmeMKrjte37NAuPV1vZoulNSpiK1U1GU6jXHi2RblqMSu217LxuKlcj1XB0xiaZ77DspVWaiTTc0tJbMhzQfD81iU5BmuKZSIqOaJADWNaAxgvJmJc7biVih8k/p6Hk4t60I8JklBj2ubrc4GddQ6dtobTj+KYua3UXES527jc8/a+yTYnOAwcyllTtI77LB7/AMFVIiy6GvaPwGyjJVLPaOvzaPT6qGp2gr/fA8mhOxHo9I6qduFj05fJV3NcEHO1eh6oTsvnndvLq7wKb2tBJ4mfCQBykyeU8lYc1p8RcHiNo81xZlTtCaor9KgGKHHuhhPRMn00JWp8DspiwQgL1HVBhOP2Rovaet/kgniFqmMCwvE8kflZGoSgSDPQmUXQsUp7QmekZQJ0kcgrBSaDuqZ2cxdgFbsM6V5soxumhRDaGDhGUsGBso6DkT3gAk2Av5LTH4ePtIoCz7SKLqbhq7wFhETII8UjlFvVUitldAf7ps2+yPblbom2b5garyRdogAchuSeHv0SwuJBk24zteIuf4Cy9TFjUI0gIu65BrWjoIEeXFQOgXJ8/wAgDx6FbxNQ+gHXaY/REDqVs0y42E9WCLbRsI26Dex3WojhjifI7czCxNhlVOkzvcTUbTptAnUY8v8AQLEDPHxPNdStQtg8lIGoPkssOqwlaQBhKa5Vnj6Q0OJczgD9ny6dEtYyf1+JOyOpZYCJJPmCDHmN48kpR5LaKUHLpFnwuOY9oIK3VIKpet9J1jx9DCbYLNQ/wkQ7la/lxPkuZ466IqhrUYEHiKKnbQqESGn1BafY3Wfsz+P1UhYu/Z/ZdCmmlPCgbz8whqwZwPsUNislyrGaXRsr5lWMBAhUWhgy6DoPmQ76BP8AAgUo1O0ztMSfIH8TAXPPE5S0hey7jFtYJcYCTZjmb6tmiG8BaXdTfb5JfUxYcARB3M6muFrfFfr8PuhzWcTDQfTrfivQxw4os7e28Ezv+htA/QKifNgASZ2G/wCrcB6pthMjqOGqqe7buZIkjmeQXFfN6VEacKwPfxqO+Af2t3eluoWoAWKw/cUTWqsdpBAgQXHW6OJAG6ZZXmdJ7Gvw4B2DmPgOFt2n7UcryNutO7R5hUraW16j+6FyWtBDXiYhki0Gbkm+6DyLEsp1waVU1ABYPApCBfdziAQY4iduKOcemdOKONqpdljqZLUxGKb373VHT4NQHdsb8QcxgMbRckm+6xWHI6zYcXh9J1J2p3eWNMFxdpB+7pc5oPFqxY8zJwo8R0yuYXcrunQe4EtY5wG5a1zgPOBb1WhmQrdv4BY9hBgggjcEEEeYK4KYB2X1mtmw/tHhbkOiOxmJfSIBpBk/CYserHCzhBG3MJfRy2o50MAeJjUD4PMndvrBV+ymhTLW03DvKM6KgLi9o1AwSWnVTcCTpfbiJ5RKVI6MbbVWU/CYP9pc5o06pkAu0lx4hsi56SCeCUY34iNJaBYAiDYwbcLg+y9Dx3YI0hXdSc2q0BpYNRFSmDOouaLPgRv7bhKcRk3eFrq9V1QtaKbSdLYawWaA0X43ueaUFe0Z5EipYfG1GfBUe3oHGPbZM8JnWMMBpL+A8AdPsFYKGT0W/YE9fEbdCbbi59kdTc1gtabE8SORdy+S04ozFVI5gRLhSYP3mifYFH4bD1wJfiI5hjGMHqXAn8PNdvxYHWOZiOW3l080DVzV4PhAsTHWeRtHoEcUFDWlSi5LiebnOJ9AdvYeakF7RPGIkTzjiepv1VZxFfE6dTiWNuQSABzgH6KDLMwxUh7Guc07OeDB5lvM+hRaQHouEyd7/E8imwSSXcOJg8Vp/aLB4a1EsqP++4w0eR3PpbqqJjTj8R/SmrUBOxENttDBbcj5IIZBiHfYPq4D6qeXwBbcf2lbW/pK7XX+GdLB/Z4+sof+cqE3qs9HD8L/AK80jZ2VqxLnMYOZJWxklIA/7YucNwymSBBvJmBxNzFuqORcYSl0gnM8ypGYIIMB3jBDm/1ReQYIPTqleKy1rnn9nL6jOYbE8x0TGj2UpvaHsrueJMw24AE6oInT+9EWPmoMVl9Kk0gV6r3bBlOoDxAg6Ra5CT72EoSg6kqG9LMMZrpGpUHcwym6m8HRpaIhwN3kj7Ri/IQsVfwAq6SXMeGWLX1A+L8Gl3xTI2tZbWE1vRcXaCcufRw9RznMFUBpDtQB+MxLQbTExO0zwV27L51TrVQKA7prG6dMRJMfDyFj8l5PWxTnEnmrf2Z7QUcG4Ndg3h5AFRz6hBiCSQxzRE2ty4rZp9WRF+rpDD+VXG03VKdM/E0ahH3XADxGdyWkxyDdpVCDgDYH1P5J7m+aMqVKpo0tTqpOqrVGtxB4MafCyIFwJtaEFh8ke6JOknaR9JutAnK3Zt+btLY0FpEQdXvIjY/qUMcbUuGvLA/wugmC2eMbhN29nqZO7o4CRc8tUWv5qfD5TQYfhaXci/UZ/qk3t09OCTiiUNctyV2HIxDsS4ng2kABUMcXl16d+LZN7LRq8Nr7AR89z5WWu+LRGkt9IMeRuPL5KXAYGpVE02lwm5ECeYbJufl5JJKK7BuyGZ6ADh7xaPzXT6ggC5Np4kXFxFyYPTqpcFgKryWd3BJ4tIcNxDRv7/JO2ZXQwwBqkvqESKbYc8jmZs0dTA6q07AS4PKn1jDWy0mxgC09NvJOKeW4bD/EBVqCxa3TYmI1HYb8b8gVBjO0ZI0UwGN4tpm8cn1Rf0ZHmUIAS0GGtbezTbfbp+N0mwJsezvXAuY1wAOlv+7YDNgALzEG3AWBXNTGNp6dbmMaRqIc8gS51iH+Wny2QVXMGsIgV3EGYYxxgjVAsII3sZ26LulUquqMqChNMOIqU60Mc+QYOq5bEyPIRa65Ms37IbGNSzvEGtcCSCdEhw4tMR7c90Jjcza0XcQ4nedQETwgjgDyvfmdY7HUaTajG1NDXeKHOqPibeEuMzeYB9Lqq43NKNw3U+DIMObvEg6jMWmYn6KDlJdAOx2pl9MAU/DudJuQJMy4zfb2ulONxhuGuLG/dFpvN46iY90ubRNSHCm5sSQQZDiLxeL7CyFeNV9UATJdqjyMA3XTjikdGJ0XXJc5L6T5qlz6I1saSNRAu+wHw6RA5nzkoMd2fqNrOpgFsPAYD9oVJLNPOwiyl7N5cdWvvWNa7wuu4EgEEtEtkXAvBTrFZliatR1JtNj2RGtw+FtydjMAzElHk5W4pLtHT5WXniin2m/8KvmOSYilBe206QRUY8SACQADIMQYja+wKxXulXDKQoupFsGXkGGCwLtOp2pp8O3Mm/LFxR8iVbiedyKbSyqm3iXeen8vqPMoinQYIsCOuw6dfKPRTVHNE87z+V9vPjyUTqwGxF7frp0sF6JQSxgF4HykfQfqym1gDe0efCd+J8/ZAHEDmPl+H0+S5fjWcXjreTHL/RMA6piDFreVvSBw6T6IPG4cVGwbHha4P5dEK/NqYFrny/NN+zbKNYl1Z5osDdYc+BrEkHTe8EGUgFFN9VtM061Q6AYYDcC0zq3jYbwmfZTGtpveyrM/D8TmPbzEgg8/bqgu2OPwtR7RhZhgIcTIDjO7Zv8A6BI657wDjUsLkeIAQ254iInlHK8wfF7RrjycXb2ep08dWa5w/aCaVQFrX6W9/ScyCWk6SHS2TMcLKv4uroLmOIEHxXcS4ji57vFU8zM2VeyF9WliGOqMc5vwnUC4aXeE3ExbiNoRebUalSoTvAawH7wY0MDjPEgAlXJLtF5nCSUoqg45zSZHEjpy6IZ3aoCdDD6wlD8oqb+sk8P1+C7y3KG1KjaZr026iRq+INhpJLr7WUN0c4WO09UGWgNsRubTx33QmOzytUADnWAiAOH19UxodmwIL3GDccCRzvsNupUoySjyJ8z+CnhG7oKKo98rqlTJ2E+k/grYMsoi+gH0sfqfRd6bw2AAdgIi3FMCv4PJa1R7dm/vOcBEHfjF06qUKpaaD3sFLVJa1sanX8bn3O5nyA23RTqgiL/vHlwkDf8AJDVMa6HNbqLXXImRaOBMAyFDUrDZ1l+HbT2MQLjfbgSTPt12UNXClxMVX6B4gGyC4A6Y5EXJuDueq3VIJIklrbyRGq8XHA/koZa4y4fwaOPU/wAFXD2Awr4tzhpL/hDQI4BoDWg28TiAZgcViA1ENgGZ58J4C1rG5WKoxS9AZjMmBY51J/elrg0hjg/cuE2ALbttMzKTvwNSJ0kDmZA99lZsKG0g51FgaSQHtIJbIgjeRaD5SnuVYR1Zh/aKRZJDm1JbckXMR8NuM7rk/OnBW9ohNlAZk9YmNMGJuQLRO88lHj8qrUWh9Sm5rXWDjYHy5r0KtjcNhrUWCvV5k+Bp5l23oJPkq3i6zq1TvMQ81HfZGzGXFms2A6m661fssRYHKH1BrcdDeE7u8hy6owZO98M1jkATEcftFN8FiXtqtcydd2i4gg2gtNp/guazjqIIAMmQOZPRK3dAKqfZyftk9A1E/wDhlrT4y8HkSB+ARjKwbBG44/xXVXGOeSSd/VPd/wAAdUoaA0bDzJ9yugZUDRwUneWDdztJ94VAStjz2vwUlSsARaY2kCJH7vEyePNL6uJDBJN0qq5ydUtaAOJkmT5pAWA4iXGd7yZk2PErWJxVJgDnVGul2mGS4x98i1uiQ4TOYtov96R9QoMXiG6pkyNi0gReQeR+SGVGvZccZhvA2tTcH0iB4wIIP3XD7KBYdQtYTYXJJ4kfmlnZnM6jWVqRk06rXNHSofhI/Ewjn1dDem3sqaXovIorcTHs07+g5/wXFSppEDc8OCzXAufEeA4eqgJM2Nzy4JGRE95mOG5MrTXGxteD7ugWXFRkTDvM/QLGu+ny2/NAEpf+J52CxT5fg3VCA0E2taViALBSzHDUCe7HfP4vMaAR+PzQGY59VrSHOhv3QIB+qQF3+nAKYORQE5XLmuiB09wtStteUwO2NNlIyw0wN5kgT5at4UYcsDjAKVAdmnO34rkCFwahWpsfRMDK2NA3QVfN4sGz5lEPoA7qNuAYdwkArr45zt4Q1yn5wFMT4VK3DNbcBIBNh8ue4bQOZRuHytoMnxedm/xR8qKo8p0BKMXTa4AkA7C2wO5gLrG0yH3c1zRcFpkOHD/RDsO3kVvUgd6ORUuTxNh0C099o/1PUqGo4yutVkhG5n9WR2VZTUrutDWgS57rNaOZPupOz2CbVqtDphE42u6pq1HwscWNYLMAabHTxNtzKYDCtnLKLDRwQkxDsQ4b8+7B4dTbzWJZQpyJPImOEgrEwP/Z"
+        },
+        { 
+            name: "Chocolate Croissant", 
+            description: "Buttery, flaky pastry filled with rich dark chocolate", 
+            price: 3.75, 
+            category: "pastries",
+            src: "https://t3.ftcdn.net/jpg/16/26/23/62/240_F_1626236222_SWkSTPe1i7gfV2FXJX1DWreylpyHqdZH.jpg"
+        },
+        { 
+            name: "Classic Drip Coffee", 
+            description: "A simple, strong, and flavorful cup of our daily brew", 
+            price: 3.00, 
+            category: "hot-coffee",
+            src: "https://t3.ftcdn.net/jpg/16/38/07/90/240_F_1638079047_cIMvjW90fJyjTty8zZLwp7NNdaVgcHal.jpg"
+        },
+        { 
+            name: "Iced Americano", 
+            description: "Bold espresso and cold water over ice, a simple classic", 
+            price: 4.00, 
+            category: "cold-coffee",
+            src: "https://t4.ftcdn.net/jpg/13/78/62/89/240_F_1378628936_VcZyVCZynP1M30WhseFLDotKbqCcDxnD.jpg"
+        },
+        { 
+            name: "Berry Scone", 
+            description: "A tender, buttery scone loaded with fresh seasonal berries", 
+            price: 4.25, 
+            category: "pastries",
+            src: "data:image/jpeg;base64,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"
+        },
+        { 
+            name: "Earl Grey Tea", 
+            description: "A fragrant blend of black tea with bergamot oil", 
+            price: 3.50, 
+            category: "tea-others",
+            src: "https://t3.ftcdn.net/jpg/16/19/07/42/240_F_1619074289_z1aIDVxJC0ZmwxpTW827iGMMD4hYSAdw.jpg"
+        },
+        { 
+            name: "Lavender Latte", 
+            description: "A delicate floral latte with a subtle hint of lavender", 
+            price: 6.50, 
+            category: "specialty",
+            src: "https://t3.ftcdn.net/jpg/13/72/92/04/240_F_1372920455_yVYflIF8W3KcDKZLcFwmb1drxty5jqh8.jpg"
+        },
+         {
+            name: "Hazelnut Latte", 
+            description: "Freshly pulled shots of espresso with our hazelnut powder, steamed non-fat milk and topped with thick foam. Enjoy it hot or iced. Available in select outlets.", 
+            price: 5.75, 
+            category: "hot-coffee",
+            src: "https://t4.ftcdn.net/jpg/14/39/61/25/240_F_1439612503_pG9nqAQFotdWoecCM7MxoPpoGtOrNKtY.jpg"
+        }
+    ];
+
+    // --- GLOBAL VARIABLES ---
+    let mousePosition = { x: 0, y: 0 };
+    let cart = []; // The cart array to store selected items
+    const USD_TO_INR = 83.33; // Fixed exchange rate as of today
+
+    // --- UTILITY FUNCTIONS ---
+    
+    /**
+     * Converts USD price to INR and formats it.
+     * @param {number} priceInUSD - The price in USD.
+     * @returns {string} The formatted price in INR.
+     */
+    function convertPriceToINR(priceInUSD) {
+        const priceInINR = priceInUSD * USD_TO_INR;
+        return `₹${priceInINR.toFixed(2)}`;
+    }
+
+    /**
+     * Throttles a function to limit its execution rate.
+     * @param {Function} func - The function to throttle.
+     * @param {number} limit - The throttle limit in milliseconds.
+     * @returns {Function} The throttled function.
+     */
+    function throttle(func, limit) {
+        let inThrottle;
+        return function(...args) {
+            const context = this;
+            if (!inThrottle) {
+                func.apply(context, args);
+                inThrottle = true;
+                setTimeout(() => (inThrottle = false), limit);
+            }
+        };
+    }
+
+    function handleHeaderScroll() {
+        const header = document.getElementById('mainHeader');
+        if (!header) return;
+
+        if (window.scrollY > 50) {
+            header.classList.add('scrolled');
+        } else {
+            header.classList.remove('scrolled');
+        }
+    }
+    
+    // --- INITIALIZATION ---
+    initializeApp();
+
+    function initializeApp() {
+        populateMenu();
+        initializeMouseTracking();
+        initializeMenuFiltering();
+        initializeScrollAnimations();
+        setupSmoothScrolling();
+        initializeEventListeners();
+        initializeBrewmasterAnimations();
+        toggleNav();
+        setupModals(); // NEW: Combined all modal setup
+        updateCartIcon(); // NEW: Initial update of the cart icon
+    }
+
+    // --- CORE FUNCTIONS ---
+    
+    /**
+     * Populates the menu grid with items from the menuItems array.
+     */
+    function populateMenu() {
+        const menuGrid = document.getElementById('menuGrid');
+        if (!menuGrid) return;
+
+        const menuHTML = menuItems.map((item, index) => {
+            const categoryMap = {
+                'hot-coffee': 'Hot Coffee',
+                'cold-coffee': 'Cold Coffee',
+                'specialty': 'Specialty',
+                'tea-others': 'Tea & Others',
+                'pastries': 'Pastries'
+            };
+            const displayName = categoryMap[item.category] || item.category;
+
+            const priceInINR = convertPriceToINR(item.price);
+
+            return `
+                <div class="menu-item" data-category="${item.category}" data-item-name="${item.name}" data-price-usd="${item.price}" data-item-src="${item.src}" data-item-index="${index}" style="animation-delay: ${index * 0.1}s">
+                    <div class="menu-item-image-container">
+                        <img src="${item.src}" alt="${item.name}" class="menu-item-image">
+                    </div>
+                    <div class="menu-item-header">
+                        <h3 class="menu-item-name">${item.name}</h3>
+                        <span class="menu-item-price">${priceInINR}</span>
+                    </div>
+                    <div class="menu-item-category">${displayName}</div>
+                    <p class="menu-item-description">${item.description}</p>
+                    <button class="btn-primary add-to-order" data-item-index="${index}">Add to Order</button>
+                </div>
+            `;
+        }).join('');
+
+        menuGrid.innerHTML = menuHTML;
+    }
+    
+    /**
+     * Sets up mouse and touch tracking for parallax effects.
+     */
+    function initializeMouseTracking() {
+        const throttledUpdate = throttle(updateParallaxElements, 16); // ~60fps
+
+        function handleMove(clientX, clientY) {
+            mousePosition.x = (clientX / window.innerWidth - 0.5) * 20;
+            mousePosition.y = (clientY / window.innerHeight - 0.5) * 20;
+            throttledUpdate();
+        }
+
+        document.addEventListener('mousemove', e => handleMove(e.clientX, e.clientY));
+        document.addEventListener('touchmove', e => {
+            if (e.touches.length === 1) {
+                handleMove(e.touches[0].clientX, e.touches[0].clientY);
+            }
+        });
+    }
+
+    /**
+     * Updates parallax elements based on the current mouse position.
+     */
+    function updateParallaxElements() {
+        const elements = {
+            heroBackground: { el: document.getElementById('heroBackground'), mx: 0.5, my: 0.5, r: 0 },
+            floatingCup: { el: document.getElementById('floatingCup'), mx: 2, my: 2, r: 1 },
+            heroTitle: { el: document.getElementById('heroTitle'), mx: 1, my: 1, z: 20 },
+            heroDescription: { el: document.getElementById('heroDescription'), mx: 0.5, my: 0.5, z: 10 },
+            heroButtons: { el: document.getElementById('heroButtons'), mx: 0.3, my: 0.3, z: 5 }
+        };
+
+        for (const key in elements) {
+            const item = elements[key];
+            if (item.el) {
+                const translateX = mousePosition.x * item.mx;
+                const translateY = mousePosition.y * item.my;
+                let transformString = `translate3d(${translateX}px, ${translateY}px, ${item.z || 0}px)`;
+                if (item.r) transformString += ` rotateY(${mousePosition.x * item.r}deg)`;
+                
+                // Preserve existing transform values
+                if (key === 'heroBackground') {
+                    transformString = `translateZ(-100px) scale(1.1) ${transformString}`;
+                }
+                item.el.style.transform = transformString;
+            }
+        }
+    }
+
+    /**
+     * Sets up click handlers for menu category filter buttons.
+     */
+    function initializeMenuFiltering() {
+        const categoryFilter = document.getElementById('categoryFilter');
+        if (!categoryFilter) return;
+
+        categoryFilter.addEventListener('click', function(e) {
+            if (e.target.matches('.filter-btn')) {
+                const category = e.target.getAttribute('data-category');
+                
+                // Update active button state
+                this.querySelector('.active').classList.remove('active');
+                e.target.classList.add('active');
+                
+                // Filter menu items
+                filterMenuItems(category);
+            }
+        });
+    }
+
+    /**
+     * Shows or hides menu items based on the selected category.
+     * @param {string} category - The category to display ('all' shows everything).
+     */
+    function filterMenuItems(category) {
+        const menuItems = document.querySelectorAll('#menuGrid .menu-item');
+        menuItems.forEach((item, index) => {
+            const itemCategory = item.getAttribute('data-category');
+            const shouldShow = category === 'all' || itemCategory === category;
+            
+            if (shouldShow) {
+                setTimeout(() => item.classList.remove('hidden'), index * 50);
+            } else {
+                item.classList.add('hidden');
+            }
+        });
+    }
+
+    /**
+     * Sets up the Intersection Observer to animate elements on scroll.
+     */
+    function initializeScrollAnimations() {
+        const observerOptions = {
+            threshold: 0.3,
+            rootMargin: '0px 0px -50px 0px'
+        };
+    
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                    observer.unobserve(entry.target); // Optional: stop observing after animation
+                }
+            });
+        }, observerOptions);
+    
+        const elementsToObserve = document.querySelectorAll('#aboutContent, #aboutImage');
+        elementsToObserve.forEach(el => {
+            if(el) observer.observe(el);
+        });
+    }
+
+    /**
+     * Sets up animations for the BrewMaster section
+     */
+    function initializeBrewmasterAnimations() {
+        const featureCards = document.querySelectorAll('.feature-card');
+        featureCards.forEach((card, index) => {
+            // Add delay for staggered animation
+            card.style.animationDelay = `${index * 0.1}s`;
+            
+            // Add hover effect
+            card.addEventListener('mouseenter', function() {
+                this.style.transform = 'rotateY(5deg) rotateX(5deg) translateZ(15px)';
+            });
+            
+            card.addEventListener('mouseleave', function() {
+                this.style.transform = 'rotateY(0deg) rotateX(0deg) translateZ(0px)';
+            });
+        });
+    }
+
+    /**
+     * Sets up smooth scrolling for navigation buttons.
+     */
+    function setupSmoothScrolling() {
+        document.body.addEventListener('click', function(e) {
+            const target = e.target.closest('[data-scroll-to]');
+            if (target) {
+                e.preventDefault();
+                const sectionId = target.getAttribute('data-scroll-to');
+                const section = document.getElementById(sectionId);
+                if (section) {
+                    section.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            }
+
+            if (e.target.matches('[data-action="directions"]')) {
+                alert('Opening directions in your default maps application...');
+            }
+        });
+    }
+
+    /**
+     * Initializes global event listeners like scroll and resize.
+     */
+    function initializeEventListeners() {
+        const throttledScroll = throttle(handleScroll, 16);
+        const throttledHeaderScroll = throttle(handleHeaderScroll, 16);
+        window.addEventListener('scroll', () => {
+            throttledScroll();
+            throttledHeaderScroll();
+        });
+
+        window.addEventListener('resize', () => {
+            mousePosition = { x: 0, y: 0 };
+            updateParallaxElements();
+        });
+    }
+
+    /**
+     * Handles scroll-based animations for the hero section.
+     */
+    function handleScroll() {
+        const scrolled = window.pageYOffset;
+        const heroSection = document.getElementById('hero');
+        if (!heroSection) return;
+
+        const heroHeight = heroSection.offsetHeight;
+        const scrollProgress = Math.min(scrolled / heroHeight, 1);
+
+        const heroBackground = document.getElementById('heroBackground');
+        const heroContent = document.getElementById('heroContent');
+
+        if (heroBackground) {
+            // This combines with the mouse parallax effect, so we focus on Y-axis
+            heroBackground.style.transform = `translateZ(-100px) scale(1.1) translateY(${scrolled * 0.5}px)`;
+        }
+        
+        if (heroContent) {
+            heroContent.style.opacity = 1 - scrollProgress * 1.5;
+            heroContent.style.transform = `translateY(${scrolled * 0.3}px)`;
+        }
+    }
+    
+    /**
+     * NEW: Toggles the mobile navigation menu.
+     */
+    function toggleNav() {
+        const navToggle = document.getElementById('navToggle');
+        const navMenu = document.getElementById('navMenu');
+        if (!navToggle || !navMenu) return;
+
+        navToggle.addEventListener('click', () => {
+            navMenu.classList.toggle('active');
+            navToggle.classList.toggle('active');
+        });
+    }
+
+    /**
+     * NEW: Sets up all modals and their event handlers.
+     */
+    function setupModals() {
+        const itemDetailModal = document.getElementById('itemDetailModal');
+        const cartModal = document.getElementById('cartModal');
+        const signInModal = document.getElementById('signInModal');
+        
+        const menuGrid = document.getElementById('menuGrid');
+        const cartIcon = document.getElementById('cartIcon');
+        const signInBtn = document.getElementById('signInBtn');
+
+        // Get modal elements
+        const modalItemName = document.getElementById('modalItemName');
+        const modalItemDescription = document.getElementById('modalItemDescription');
+        const modalItemImage = document.getElementById('modalItemImage');
+        const modalSmallPrice = document.getElementById('modalSmallPrice');
+        const modalRegularPrice = document.getElementById('modalRegularPrice');
+        const addToCartBtn = document.getElementById('addToCart');
+        const modalCloseBtn = itemDetailModal.querySelector('.modal-close-btn');
+        
+        // Event listeners for opening modals
+        menuGrid.addEventListener('click', (e) => {
+            const button = e.target.closest('.add-to-order');
+            if (button) {
+                const itemIndex = button.getAttribute('data-item-index');
+                const selectedItem = menuItems[itemIndex];
+                
+                // Populate modal with item details
+                modalItemName.textContent = selectedItem.name;
+                modalItemDescription.textContent = selectedItem.description;
+                modalItemImage.src = selectedItem.src;
+                modalItemImage.alt = selectedItem.name;
+                modalSmallPrice.textContent = convertPriceToINR(selectedItem.price * 0.9); // Example small size price
+                modalRegularPrice.textContent = convertPriceToINR(selectedItem.price);
+                
+                // Update the add to cart button to handle this specific item
+                addToCartBtn.setAttribute('data-item-index', itemIndex);
+                
+                itemDetailModal.classList.add('active');
+            }
+        });
+        
+        cartIcon.addEventListener('click', () => {
+            populateCartModal();
+            cartModal.classList.add('active');
+        });
+        
+        signInBtn.addEventListener('click', () => {
+            signInModal.classList.add('active');
+        });
+
+        // Event listeners for closing modals
+        modalCloseBtn.addEventListener('click', () => {
+            itemDetailModal.classList.remove('active');
+        });
+        
+        itemDetailModal.addEventListener('click', (e) => {
+            if (e.target === itemDetailModal) {
+                itemDetailModal.classList.remove('active');
+            }
+        });
+
+        cartModal.addEventListener('click', (e) => {
+            if (e.target.classList.contains('modal') || e.target.id === 'closeCartModal') {
+                cartModal.classList.remove('active');
+            }
+        });
+        
+        signInModal.addEventListener('click', (e) => {
+            if (e.target.classList.contains('modal') || e.target.id === 'closeSignInModal') {
+                signInModal.classList.remove('active');
+            }
+        });
+        
+        // New logic for adding to cart from the detail modal
+        addToCartBtn.addEventListener('click', () => {
+            const itemIndex = addToCartBtn.getAttribute('data-item-index');
+            const selectedItem = menuItems[itemIndex];
+            addItemToCart(selectedItem);
+            itemDetailModal.classList.remove('active');
+            alert(`Added ${selectedItem.name} to cart.`);
+        });
+    }
+
+    /**
+     * NEW: Adds an item to the cart array and updates the UI.
+     * @param {object} item - The item to add.
+     */
+    function addItemToCart(item) {
+        cart.push(item);
+        updateCartIcon();
+    }
+
+    /**
+     * NEW: Updates the number displayed on the cart icon.
+     */
+    function updateCartIcon() {
+        const cartCount = document.getElementById('cartCount');
+        if (cartCount) {
+            cartCount.textContent = cart.length;
+        }
+    }
+    
+    /**
+     * NEW: Populates the cart modal with current items and total.
+     */
+    function populateCartModal() {
+        const cartItemsList = document.getElementById('cartItemsList');
+        const cartTotalElement = document.getElementById('cartTotal');
+        let totalUSD = 0;
+        
+        if (!cartItemsList || !cartTotalElement) return;
+
+        // Clear previous list
+        cartItemsList.innerHTML = '';
+        
+        if (cart.length === 0) {
+            cartItemsList.innerHTML = '<p style="text-align: center; color: var(--coffee-light);">Your cart is empty. Start adding some delicious items!</p>';
+        } else {
+            cart.forEach(item => {
+                const cartItemDiv = document.createElement('div');
+                cartItemDiv.classList.add('cart-item');
+                
+                const itemPriceInINR = convertPriceToINR(item.price);
+                
+                cartItemDiv.innerHTML = `
+                    <span class="cart-item-name">${item.name}</span>
+                    <span class="cart-item-price">${itemPriceInINR}</span>
+                `;
+                cartItemsList.appendChild(cartItemDiv);
+                
+                totalUSD += item.price;
+            });
+        }
+        
+        const totalINR = totalUSD * USD_TO_INR;
+        cartTotalElement.textContent = `Total: ₹${totalINR.toFixed(2)}`;
+    }
+});
+    </script>
+</body>
+</html>
